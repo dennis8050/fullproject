@@ -1,0 +1,101 @@
+# ============================
+# 🔒 SECURITY / SECRETS
+# ============================
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.secret
+*.secrets
+secrets/
+config/secrets.yml
+
+# Private keys and certificates
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+
+# SSH keys
+id_rsa
+id_rsa.pub
+id_dsa
+id_ecdsa
+id_ed25519
+*.ssh
+
+# Kubernetes and Minikube configs
+.kube/
+.kube/config
+.kubeconfig
+kubeconfig.yaml
+kubeconfig.b64
+minikube/
+.k8s/
+*.kubeconfig
+.userapp-config.yaml
+.userapp-secret.yaml
+# AWS / Cloud credentials
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+*.tfvars.json
+terraform.tfstate*
+terraform.tfstate.backup
+.terraform/
+
+# Docker secrets and local images
+.docker/
+docker-compose.override.yml
+**/docker-compose.override.yml
+
+# GitHub Actions runner or local workflow files
+.github/workflows/secrets.yml
+.github/workflows/*.secret.yml
+
+# ============================
+# 🧑‍💻 GENERAL DEVELOPMENT
+# ============================
+
+# Logs and runtime files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Node.js dependencies
+node_modules/
+npm-cache/
+yarn-cache/
+
+# Python build and cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.egg-info/
+dist/
+build/
+
+# IDE / Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary or backup files
+*.tmp
+*.bak
+*.old
+*~
