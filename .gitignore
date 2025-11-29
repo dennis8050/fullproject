@@ -46,7 +46,7 @@ minikube/
 *.tfvars.json
 terraform.tfstate*
 terraform.tfstate.backup
-.terraform/
+
 
 # Docker secrets and local images
 .docker/
