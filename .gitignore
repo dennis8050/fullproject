@@ -2,6 +2,24 @@
 # 🔒 SECURITY / SECRETS
 # ============================
 
+# Terraform state and caches
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+*.tfvars.json
+
+# Terraform providers
+terraform/**/terraform-provider-*
+
+# AWS / Cloud credentials
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+
 # Environment files
 .env
 .env.local
@@ -11,42 +29,15 @@
 secrets/
 config/secrets.yml
 
-# Private keys and certificates
-*.pem
-*.key
-*.crt
-*.cer
-*.p12
-*.pfx
-
-# SSH keys
-id_rsa
-id_rsa.pub
-id_dsa
-id_ecdsa
-id_ed25519
-*.ssh
-
 # Kubernetes and Minikube configs
 .kube/
 .kube/config
 .kubeconfig
 kubeconfig.yaml
-kubeconfig.b64
-minikube/
 .k8s/
 *.kubeconfig
 .userapp-config.yaml
 .userapp-secret.yaml
-# AWS / Cloud credentials
-.terraform/
-*.tfstate
-*.tfstate.backup
-*.tfvars
-*.tfvars.json
-terraform.tfstate*
-terraform.tfstate.backup
-
 
 # Docker secrets and local images
 .docker/
@@ -58,7 +49,7 @@ docker-compose.override.yml
 .github/workflows/*.secret.yml
 
 # ============================
-# 🧑‍💻 GENERAL DEVELOPMENT
+# 🧑‍💻 DEVELOPMENT FILES
 # ============================
 
 # Logs and runtime files
