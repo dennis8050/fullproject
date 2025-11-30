@@ -78,13 +78,13 @@ jobs:
       # Step 9: Terraform Plan
       - name: Terraform Plan
         working-directory: terraform/backend
-        run: terraform plan -out=tfplan -input=false -var="env=dev"
+        run: terraform plan -out=tfplan -input=false -var="env=dev" 
 
 
       # Step 10: Terraform Apply
       - name: Terraform Apply
         working-directory: terraform/backend
-        run: terraform apply -var="env=dev"
+        run: terraform apply -var="env=dev" -auto-approve
 
       
 
@@ -101,7 +101,7 @@ jobs:
       # Step 10: Terraform Apply
       - name: Terraform Apply
         working-directory: terraform/envs/dev
-        run: terraform apply -input=false tfplan
+        run: terraform apply -input=false tfplan -auto-approve
 
       # Step 11: Update kubeconfig for EKS
       - name: Update kubeconfig
