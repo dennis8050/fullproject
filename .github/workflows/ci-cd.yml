@@ -105,7 +105,7 @@ jobs:
       # Step 11: Update kubeconfig for EKS
       - name: Update kubeconfig
         run: |
-          aws eks update-kubeconfig --name dev-eks --region us-west-1
+          aws eks update-kubeconfig --name dev-eks --region us-east-1
 
       # Step 12: Deploy to Kubernetes
       - name: Deploy to Kubernetes
