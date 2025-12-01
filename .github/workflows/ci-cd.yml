@@ -87,7 +87,7 @@ jobs:
       # Step 10: Terraform Apply
       - name: Terraform Apply
         working-directory: terraform/envs/dev
-        run: terraform apply -input=false tfplan -auto-approve
+        run: terraform apply  -auto-approve
 
       # Step 11: Update kubeconfig for EKS
       - name: Update kubeconfig
