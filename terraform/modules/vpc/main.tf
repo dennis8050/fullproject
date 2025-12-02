@@ -23,6 +23,8 @@ resource "aws_subnet" "public" {
   tags = {
     Name = "${var.name}-public-${count.index}"
     "kubernetes.io/role/elb" = "1" #this allow public load balance and pods will not run here only lbs
+    "kubernetes.io/cluster/dev-eks" = "owned"
+ 
   }
 }
 
@@ -35,6 +37,8 @@ resource "aws_subnet" "private" {
 
   tags = {
     Name = "${var.name}-private-${count.index}"
+    "kubernetes.io/cluster/dev-eks"    = "owned"
+    
     "kubernetes.io/role/internal-elb" = "1" #worker nodes only run here, pod stay safe and load balnce acess them
   }
 }
