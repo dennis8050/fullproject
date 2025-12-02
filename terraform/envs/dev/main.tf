@@ -1,24 +1,18 @@
-provider "aws" {
-  region = "us-east-1"
-}
+provider "aws" { region = "us-east-1" }
 
 module "vpc" {
-  source = "../../modules/vpc"
-
+  source          = "../../modules/vpc"
   name            = "dev"
   vpc_cidr        = "10.0.0.0/16"
-  public_subnets  = ["10.0.1.0/24", "10.0.2.0/24"]
-  private_subnets = ["10.0.3.0/24", "10.0.4.0/24"]
-  azs             = ["us-east-1a", "us-east-1b"]
+  public_subnets  = ["10.0.1.0/24","10.0.2.0/24"]
+  private_subnets = ["10.0.101.0/24","10.0.102.0/24"]
+  azs             = ["us-east-1a","us-east-1b"]
 }
 
 module "eks" {
-  source = "../../modules/eks"
-
+  source           = "../../modules/eks"
   cluster_name     = "dev-eks"
-  private_subnets  = module.vpc.private_subnets #this make all node safe still reach via lb
-  cluster_role_arn = "arn:aws:iam::311141540332:role/AmazonEKSAutoClusterRole"
-  node_role_arn    = "arn:aws:iam::311141540332:role/AmazonEKSAutoNodeRole"
+  cluster_role_arn = var.cluster_role_arn
+  node_role_arn    = var.node_role_arn
+  private_subnets  = module.vpc.private_subnet_ids
 }
-
-
