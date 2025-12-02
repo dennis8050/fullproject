@@ -7,7 +7,7 @@
 *.tfstate
 *.tfstate.backup
 *.tfvars
-*.tfvars.json
+
 
 # Terraform providers
 terraform/**/terraform-provider-*
