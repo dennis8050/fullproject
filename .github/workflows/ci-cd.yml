@@ -3,7 +3,7 @@ name: Full-Stack CI/CD Pipeline
 on:
   push:
     branches:
-      - dev  # Trigger on push to dev branch
+      - dev
 
 jobs:
   build-test-push-deploy:
@@ -129,7 +129,26 @@ jobs:
           aws eks update-kubeconfig --name dev-eks --region ${{ env.AWS_REGION }}
 
       # ---------------------------
-      # 14. Deploy to Kubernetes
+      # 14. Apply aws-auth ConfigMap for GitHub Actions access
+      # ---------------------------
+      - name: Apply aws-auth ConfigMap
+        run: |
+          cat <<EOF | kubectl apply -f -
+          apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: aws-auth
+            namespace: kube-system
+          data:
+            mapRoles: |
+              - rolearn: arn:aws:iam::311141540332:role/<GitHub-Actions-Role>
+                username: github-actions
+                groups:
+                  - system:masters
+          EOF
+
+      # ---------------------------
+      # 15. Deploy to Kubernetes
       # ---------------------------
       - name: Deploy to Kubernetes
         run: |
