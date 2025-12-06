@@ -8,22 +8,25 @@ on:
 jobs:
   build-test-push-deploy:
     runs-on: ubuntu-latest
-
     env:
       AWS_REGION: us-east-1
 
     steps:
-      # Step 1: Checkout repo
+      # ---------------------------
+      # 1. Checkout repo
+      # ---------------------------
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Set up Python for backend tests
+      # ---------------------------
+      # 2. Set up Python for backend tests
+      # ---------------------------
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: Install backend dependencies
         run: |
           pip install -r backend/requirements.txt
           pip install pytest
@@ -31,17 +34,20 @@ jobs:
       - name: Run backend tests
         run: |
           cd backend
-          pip install -r requirements.txt
           pytest --maxfail=1 --disable-warnings -q
 
-      # Step 3: Log in to Docker Hub
+      # ---------------------------
+      # 3. Log in to Docker Hub
+      # ---------------------------
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Step 4: Build and push backend image
+      # ---------------------------
+      # 4. Build & push backend image
+      # ---------------------------
       - name: Build & Push Backend Image
         run: |
           BACKEND_IMAGE=${{ secrets.DOCKER_REPO_BACKEND }}:${{ github.sha }}
@@ -49,7 +55,9 @@ jobs:
           docker push $BACKEND_IMAGE
           echo "BACKEND_IMAGE=$BACKEND_IMAGE" >> $GITHUB_ENV
 
-      # Step 5: Build and push frontend image
+      # ---------------------------
+      # 5. Build & push frontend image
+      # ---------------------------
       - name: Build & Push Frontend Image
         run: |
           FRONTEND_IMAGE=${{ secrets.DOCKER_REPO_FRONTEND }}:${{ github.sha }}
@@ -57,44 +65,72 @@ jobs:
           docker push $FRONTEND_IMAGE
           echo "FRONTEND_IMAGE=$FRONTEND_IMAGE" >> $GITHUB_ENV
 
-      # Step 6: Configure AWS credentials
+      # ---------------------------
+      # 6. Configure AWS credentials
+      # ---------------------------
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: ${{ env.AWS_REGION }}
 
-      # Step 7: Install Terraform
+      # ---------------------------
+      # 7. Setup Terraform
+      # ---------------------------
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.11.4
-       
 
-      
-
-      # Step 8: Terraform Init
+      # ---------------------------
+      # 8. Terraform Init
+      # ---------------------------
       - name: Terraform Init
         working-directory: terraform/envs/dev
         run: terraform init -input=false
 
-      # Step 9: Terraform Plan
+      # ---------------------------
+      # 9. Terraform Plan
+      # ---------------------------
       - name: Terraform Plan
         working-directory: terraform/envs/dev
         run: terraform plan -out=tfplan -input=false
 
-      # Step 10: Terraform Apply
+      # ---------------------------
+      # 10. Terraform Apply
+      # ---------------------------
       - name: Terraform Apply
         working-directory: terraform/envs/dev
-        run: terraform apply  -auto-approve
+        run: terraform apply -auto-approve
 
-      # Step 11: Update kubeconfig for EKS
+      # ---------------------------
+      # 11. Install kubectl
+      # ---------------------------
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+
+      # ---------------------------
+      # 12. Wait for EKS cluster & node group readiness
+      # ---------------------------
+      - name: Wait for EKS cluster
+        run: |
+          aws eks wait cluster-active --name dev-eks --region ${{ env.AWS_REGION }}
+          aws eks wait nodegroup-active --cluster-name dev-eks --nodegroup-name dev-eks-nodes --region ${{ env.AWS_REGION }}
+
+      # ---------------------------
+      # 13. Update kubeconfig
+      # ---------------------------
       - name: Update kubeconfig
         run: |
-          aws eks update-kubeconfig --name dev-eks --region us-east-1
+          aws eks update-kubeconfig --name dev-eks --region ${{ env.AWS_REGION }}
 
-      # Step 12: Deploy to Kubernetes
+      # ---------------------------
+      # 14. Deploy to Kubernetes
+      # ---------------------------
       - name: Deploy to Kubernetes
         run: |
           kubectl set image deployment/frontend frontend=${{ env.FRONTEND_IMAGE }} -n dev
