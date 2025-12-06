@@ -66,13 +66,12 @@ jobs:
           echo "FRONTEND_IMAGE=$FRONTEND_IMAGE" >> $GITHUB_ENV
 
       # ---------------------------
-      # 6. Configure AWS credentials
+      # 6. Configure AWS credentials via OIDC
       # ---------------------------
-      - name: Configure AWS credentials
+      - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: arn:aws:iam::311141540332:role/<GitHub-Actions-Role>
           aws-region: ${{ env.AWS_REGION }}
 
       # ---------------------------
@@ -129,26 +128,7 @@ jobs:
           aws eks update-kubeconfig --name dev-eks --region ${{ env.AWS_REGION }}
 
       # ---------------------------
-      # 14. Apply aws-auth ConfigMap for GitHub Actions access
-      # ---------------------------
-      - name: Apply aws-auth ConfigMap
-        run: |
-          cat <<EOF | kubectl apply -f -
-          apiVersion: v1
-          kind: ConfigMap
-          metadata:
-            name: aws-auth
-            namespace: kube-system
-          data:
-            mapRoles: |
-              - rolearn: arn:aws:iam::311141540332:role/<GitHub-Actions-Role>
-                username: github-actions
-                groups:
-                  - system:masters
-          EOF
-
-      # ---------------------------
-      # 15. Deploy to Kubernetes
+      # 14. Deploy to Kubernetes
       # ---------------------------
       - name: Deploy to Kubernetes
         run: |
