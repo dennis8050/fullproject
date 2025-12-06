@@ -13,7 +13,8 @@ module "vpc" {
 module "eks" {
   source           = "../../modules/eks"
   cluster_name     = "dev-eks"
-  cluster_role_arn = var.cluster_role_arn
-  node_role_arn    = var.node_role_arn
+  #cluster_role_arn = module.eks.aws_iam_role.eks_cluster_role.arn
+  #node_role_arn    = module.eks.aws_iam_role.eks_node_role.arn
+
   private_subnets  = module.vpc.private_subnet_ids
 }
