@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dev
-  namespace: userapp
+  name: postgres
+  namespace: dev
 spec:
   replicas: 1
   selector:
