@@ -8,6 +8,7 @@ on:
 permissions:
   id-token: write        # REQUIRED FOR OIDC
   contents: read
+
 jobs:
   build-test-push-deploy:
     runs-on: ubuntu-latest
@@ -48,9 +49,8 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      
       # ---------------------------
-      # 6. Configure AWS credentials via OIDC
+      # 4. Authenticate with AWS using OIDC
       # ---------------------------
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4
@@ -61,38 +61,28 @@ jobs:
       - name: Test identity
         run: aws sts get-caller-identity
 
-
       # ---------------------------
-      # 7. Setup Terraform
+      # 5. Setup Terraform
       # ---------------------------
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.11.4
 
-      # ---------------------------
-      # 8. Terraform Init
-      # ---------------------------
       - name: Terraform Init
         working-directory: terraform/envs/dev
         run: terraform init -input=false
 
-      # ---------------------------
-      # 9. Terraform Plan
-      # ---------------------------
       - name: Terraform Plan
         working-directory: terraform/envs/dev
         run: terraform plan -out=tfplan -input=false
 
-      # ---------------------------
-      # 10. Terraform Apply
-      # ---------------------------
       - name: Terraform Apply
         working-directory: terraform/envs/dev
         run: terraform apply -auto-approve
 
       # ---------------------------
-      # 11. Install kubectl
+      # 6. Install kubectl
       # ---------------------------
       - name: Install kubectl
         run: |
@@ -101,7 +91,7 @@ jobs:
           sudo mv kubectl /usr/local/bin/
 
       # ---------------------------
-      # 12. Wait for EKS cluster & node group readiness
+      # 7. Wait for EKS cluster & nodes
       # ---------------------------
       - name: Wait for EKS cluster
         run: |
@@ -109,15 +99,22 @@ jobs:
           aws eks wait nodegroup-active --cluster-name dev-eks --nodegroup-name dev-eks-nodes --region ${{ env.AWS_REGION }}
 
       # ---------------------------
-      # 13. Update kubeconfig
+      # 8. Update kubeconfig
       # ---------------------------
       - name: Update kubeconfig
         run: |
           aws eks update-kubeconfig --name dev-eks --region ${{ env.AWS_REGION }}
 
+      # ---------------------------
+      # 9. Apply Kubernetes manifests (IMPORTANT)
+      # ---------------------------
+      - name: Apply Kubernetes Manifests
+        run: |
+          kubectl apply -f k8s/namespace.yaml
+          kubectl apply -f k8s/ -n dev
 
-          # ---------------------------
-      # 4. Build & push backend image
+      # ---------------------------
+      # 10. Build & push backend image
       # ---------------------------
       - name: Build & Push Backend Image
         run: |
@@ -127,7 +124,7 @@ jobs:
           echo "BACKEND_IMAGE=$BACKEND_IMAGE" >> $GITHUB_ENV
 
       # ---------------------------
-      # 5. Build & push frontend image
+      # 11. Build & push frontend image
       # ---------------------------
       - name: Build & Push Frontend Image
         run: |
@@ -137,11 +134,8 @@ jobs:
           echo "FRONTEND_IMAGE=$FRONTEND_IMAGE" >> $GITHUB_ENV
 
       # ---------------------------
-      # 14. Deploy to Kubernetes
+      # 12. Rollout Deployments
       # ---------------------------
-      - name: Ensure dev namespace exists
-        run: kubectl get namespace dev || kubectl create namespace dev
-
       - name: Deploy to Kubernetes
         run: |
           kubectl set image deployment/frontend frontend=${{ env.FRONTEND_IMAGE }} -n dev
