@@ -5,6 +5,9 @@ on:
     branches:
       - dev
 
+permissions:
+  id-token: write        # REQUIRED FOR OIDC
+  contents: read
 jobs:
   build-test-push-deploy:
     runs-on: ubuntu-latest
