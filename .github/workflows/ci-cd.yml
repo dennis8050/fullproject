@@ -137,6 +137,9 @@ jobs:
       # ---------------------------
       # 14. Deploy to Kubernetes
       # ---------------------------
+      - name: Ensure dev namespace exists
+        run: kubectl get namespace dev || kubectl create namespace dev
+
       - name: Deploy to Kubernetes
         run: |
           kubectl set image deployment/frontend frontend=${{ env.FRONTEND_IMAGE }} -n dev
