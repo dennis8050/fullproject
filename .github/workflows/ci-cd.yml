@@ -110,8 +110,10 @@ jobs:
       # ---------------------------
       - name: Apply Kubernetes Manifests
         run: |
-          kubectl apply -f k8s/namespace.yaml
-          kubectl apply -f k8s/ -n dev
+          
+          kubectl apply -f k8s/dev 
+
+          
 
       # ---------------------------
       # 10. Build & push backend image
