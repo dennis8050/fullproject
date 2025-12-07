@@ -69,10 +69,14 @@ jobs:
       # 6. Configure AWS credentials via OIDC
       # ---------------------------
       - name: Configure AWS credentials via OIDC
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::311141540332:role/<GitHub-Actions-Role>
           aws-region: ${{ env.AWS_REGION }}
+
+      - name: Test identity
+        run: aws sts get-caller-identity
+
 
       # ---------------------------
       # 7. Setup Terraform
