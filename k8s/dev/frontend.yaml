@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: kofitone/dev-frontend:latest
+          image:  nginx:latest
           ports:
             - containerPort: 80
           resources:

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: kofitone/dev-backend:latest  # make sure this image exists
+          image:  nginx:latest  # make sure this image exists
           ports:
             - containerPort: 5000
           envFrom:

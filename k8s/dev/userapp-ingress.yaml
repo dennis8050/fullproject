@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: myapp.local
+  - host:
     http:
       paths:
       - path: /
