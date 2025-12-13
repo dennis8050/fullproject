@@ -110,7 +110,7 @@ jobs:
       # ---------------------------
       - name: Apply Kubernetes Manifests
         run: |
-          
+          kubectl apply -f k8s/namespace
           kubectl apply -f k8s/dev 
 
           
