@@ -93,10 +93,10 @@ jobs:
       # ---------------------------
       # 7. Wait for EKS cluster & nodes
       # ---------------------------
-      - name: Wait for EKS cluster
-        run: |
-          aws eks wait cluster-active --name dev-eks --region ${{ env.AWS_REGION }}
-          aws eks wait nodegroup-active --cluster-name dev-eks --nodegroup-name dev-eks-nodes --region ${{ env.AWS_REGION }}
+      #- name: Wait for EKS cluster
+      #  run: |
+       #   aws eks wait cluster-active --name dev-eks --region ${{ env.AWS_REGION }}
+      #    aws eks wait nodegroup-active --cluster-name dev-eks --nodegroup-name dev-eks-nodes --region ${{ env.AWS_REGION }}
 
       # ---------------------------
       # 8. Update kubeconfig
