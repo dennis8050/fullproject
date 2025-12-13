@@ -79,7 +79,7 @@ jobs:
 
       - name: Terraform Apply
         working-directory: terraform/envs/dev
-        run: terraform apply -auto-approve
+        run: terraform destroy -auto-approve
 
       # ---------------------------
       # 6. Install kubectl
