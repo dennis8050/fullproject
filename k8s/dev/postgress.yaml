@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: userapp-config
+                  key: DB_NAME
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: userapp-secret
+                  key: DB_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: userapp-secret
+                  key: DB_PASSWORD
+          volumeMounts:
+            - name: init-script
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: init-script
+          configMap:
+            name: userapp-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: dev
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: postgres

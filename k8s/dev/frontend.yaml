@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: dev
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image:  nginx:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "250m"       # minimum CPU guaranteed
+              memory: "256Mi"   # minimum RAM guaranteed
+            limits:
+              cpu: "500m"       # maximum CPU allowed
+              memory: "512Mi"   # maximum RAM allowed
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: dev
+  annotations: 
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+spec:
+  type: LoadBalancer    # type is correct here
+  selector:
+    app: frontend
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: frontend-hpa
+  namespace: dev
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: frontend
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
