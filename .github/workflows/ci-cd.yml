@@ -79,7 +79,7 @@ jobs:
 
       - name: Terraform Apply
         working-directory: terraform/envs/dev
-        run: terraform destroy -auto-approve
+        run: terraform apply -auto-approve
 
       # ---------------------------
       # 6. Install kubectl
@@ -138,9 +138,4 @@ jobs:
       # ---------------------------
       # 12. Rollout Deployments
       # ---------------------------
-      - name: Deploy to Kubernetes
-        run: |
-          kubectl set image deployment/frontend frontend=${{ env.FRONTEND_IMAGE }} -n dev
-          kubectl set image deployment/backend backend=${{ env.BACKEND_IMAGE }} -n dev
-          kubectl rollout status deployment/frontend -n dev
-          kubectl rollout status deployment/backend -n dev
+     
