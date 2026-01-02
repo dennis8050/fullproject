@@ -77,9 +77,9 @@ jobs:
        # working-directory: terraform/envs/dev
         #run: terraform plan -out=tfplan -input=false
 
-      - name: Terraform Apply
-        working-directory: terraform/envs/dev
-        run: terraform destroy -auto-approve
+     # - name: Terraform Apply
+      #  working-directory: terraform/envs/dev
+       # run: terraform destroy -auto-approve
 
       # ---------------------------
       # 6. Install kubectl
