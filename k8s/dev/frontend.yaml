@@ -34,13 +34,13 @@ metadata:
   annotations: 
     service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
 spec:
-  type: LoadBalancer    # type is correct here
+  type: NodePort    # type is correct here
   selector:
     app: frontend
   ports:
     - port: 80
       targetPort: 80
-      protocol: TCP
+      nodePort: 30080
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
