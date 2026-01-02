@@ -52,34 +52,34 @@ jobs:
       # ---------------------------
       # 4. Authenticate with AWS using OIDC
       # ---------------------------
-      - name: Configure AWS credentials via OIDC
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::311141540332:role/userRole
-          aws-region: ${{ env.AWS_REGION }}
+      #- name: Configure AWS credentials via OIDC
+       # uses: aws-actions/configure-aws-credentials@v4
+        #with:
+         # role-to-assume: arn:aws:iam::311141540332:role/userRole
+          #aws-region: ${{ env.AWS_REGION }}
 
-      - name: Test identity
-        run: aws sts get-caller-identity
+      #- name: Test identity
+       # run: aws sts get-caller-identity
 
       # ---------------------------
       # 5. Setup Terraform
       # ---------------------------
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.11.4
+      #- name: Setup Terraform
+       # uses: hashicorp/setup-terraform@v2
+       # with:
+        #  terraform_version: 1.11.4
 
-      - name: Terraform Init
-        working-directory: terraform/envs/dev
-        run: terraform init -input=false
+      #- name: Terraform Init
+       # working-directory: terraform/envs/dev
+        #run: terraform init -input=false
 
-      - name: Terraform Plan
-        working-directory: terraform/envs/dev
-        run: terraform plan -out=tfplan -input=false
+      #- name: Terraform Plan
+       # working-directory: terraform/envs/dev
+        #run: terraform plan -out=tfplan -input=false
 
-      - name: Terraform Apply
-        working-directory: terraform/envs/dev
-        run: terraform destroy -auto-approve
+      #- name: Terraform Apply
+       # working-directory: terraform/envs/dev
+        #run: terraform destroy -auto-approve
 
       # ---------------------------
       # 6. Install kubectl
