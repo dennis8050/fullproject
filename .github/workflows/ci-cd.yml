@@ -108,10 +108,10 @@ jobs:
       # ---------------------------
       # 9. Apply Kubernetes manifests (IMPORTANT)
       # ---------------------------
-      - name: Apply Kubernetes Manifests
-        run: |
-          kubectl apply -f k8s/dev/namespace.yaml
-          kubectl apply -f k8s/dev 
+      #- name: Apply Kubernetes Manifests
+        #run: |
+        #  kubectl apply -f k8s/dev/namespace.yaml
+        #  kubectl apply -f k8s/dev 
 
           
 
