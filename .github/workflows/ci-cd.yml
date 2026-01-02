@@ -7,7 +7,9 @@ on:
 
 permissions:
   id-token: write        # REQUIRED FOR OIDC
-  contents: read
+  contents: write
+
+
 
 jobs:
   build-test-push-deploy:
