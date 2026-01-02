@@ -77,9 +77,9 @@ jobs:
        # working-directory: terraform/envs/dev
         #run: terraform plan -out=tfplan -input=false
 
-      #- name: Terraform Apply
-       # working-directory: terraform/envs/dev
-        #run: terraform destroy -auto-approve
+      - name: Terraform Apply
+        working-directory: terraform/envs/dev
+        run: terraform destroy -auto-approve
 
       # ---------------------------
       # 6. Install kubectl
@@ -101,9 +101,9 @@ jobs:
       # ---------------------------
       # 8. Update kubeconfig
       # ---------------------------
-      - name: Update kubeconfig
-        run: |
-          aws eks update-kubeconfig --name dev-eks --region ${{ env.AWS_REGION }}
+      #- name: Update kubeconfig
+       # run: |
+       #   aws eks update-kubeconfig --name dev-eks --region ${{ env.AWS_REGION }}
 
       # ---------------------------
       # 9. Apply Kubernetes manifests (IMPORTANT)
