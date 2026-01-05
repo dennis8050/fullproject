@@ -1,90 +1,120 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="index.css">
-	<title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Isaac Dennis | DevOps & Fullstack Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Roboto', sans-serif; background: #f9fafb; color: #1f2937; line-height: 1.6; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header { background: #111827; color: #fff; padding: 3rem 1rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .profile-pic { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid #2563eb; }
+    header h1 { font-size: 2.5rem; margin-bottom: 0.25rem; }
+    header p { font-size: 1.2rem; color: #9ca3af; }
+
+    main { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+
+    section { margin-bottom: 2rem; background: #fff; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    h2 { margin-bottom: 1rem; font-size: 1.5rem; color: #111827; border-bottom: 2px solid #2563eb; display: inline-block; padding-bottom: 0.25rem; }
+
+    ul.skills, ul.projects { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    ul.skills li { background: #e0f2fe; color: #0369a1; padding: 0.5rem 1rem; border-radius: 999px; font-weight: bold; font-size: 0.9rem; }
+    ul.projects li { background: #fef3c7; color: #78350f; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 500; }
+
+    .app-container { min-height: 300px; border: 2px dashed #9ca3af; display: flex; align-items: center; justify-content: center; margin-top: 1rem; border-radius: 0.5rem; background-color: #f3f4f6; }
+
+    footer { text-align: center; padding: 1rem; background: #111827; color: #d1d5db; margin-top: 2rem; font-size: 0.9rem; }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 2rem; }
+      ul.skills, ul.projects { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
-	<header>
-		<div class="container">
-			<h1 class="h1-color">BASS&LEADLessons</h1>
-			<p>learn everything you need to know about how to play and maintain your guitar from the internet's best instructors </p><button><a href="https://wa.me/message/QZUJCQTDRWVPP1">START</a></button>
 
-		</div>
-	</header>
-	<section class="section-one">
-		<h1 class="h1-color">FREE BOOK TO DOWNLOAD</h1>
-		<h1 class="h1-color">BASS <p>quick series</p></h1>
-		<div class="container-one">
-		
-		<div class="container-box"> <img src="pexels-dmitry-demidov-3807838.jpg" class="img-background"><h3>Beginners to advance BOOK</h3> <a href="https://drive.google.com/file/d/17pnR4WJbWB3PYXvYv_c8z1emJvJljlC9/view?usp=sharing"><button>download</button></a></div>
-		<div class="container-box"><img src="pexels-freestocksorg-96380.jpg" class="img-background"><h3>BASS SOLO BOOK</h3><a href="https://drive.google.com/file/d/18-HZm8pYIP7f9uklOcsExdEEWWcvsuA0/view?usp=sharing"><button>download</button></a></div>
-		<div class="container-box"><img src="pexels-pixabay-35610.jpg" class="img-background"><h3>BASS SLAB BOOK</h3><a href="https://drive.google.com/file/d/14qJ9ye_TOKZB-N9h2aWZl6A_TD7CRHyl/view?usp=sharing"><button>download</button></a></div>
-		<div class="container-box"><img src="pexels-brett-sayles-1213918 .jpg" class="img-background"><h3>THE BASS ROCK BOOK</h3><a href="https://drive.google.com/file/d/17lpbPrL0bxsF19hRk_k-OTjEYoNxsb4g/view?usp=sharing"><button>download</button></a></div>
-		</div>
-<h1 style="color: black;"><p>Download this PDF for free.... FOR more BASS TUTORIAL VIDEO CLICK <a href="article/inde.html">here..</a></p></h1>
-	</section>
-	<section class="section-3">
-		<div class="container-3">
-		<img src="IMG-20220415-WA0024~3.jpg">
-		<h2>GETTING STARTED ON THE</h2>
-		<h2>Bass and Lead</h2>
-		
-		<div id="root"></div>
-		</div>
-	</section>
-	<section class="section-one">
-		<h1 class="h1-color">BEGINNER</h1>
-		<h1 class="h1-color">LeadGUITAR<p>quick series</p></h1>
+  <header>
+    <img src="profile.jpg" alt="Isaac Dennis" class="profile-pic">
+    <h1>Isaac Dennis</h1>
+    <p>DevOps & Fullstack Engineer | Cloud & Kubernetes Specialist | Canada-ready</p>
+  </header>
 
-		<div class="container-one">
-			<div class="container-box"><img src="pexels-jessica-lewis-creative-1010518.jpg" class="img-background"><h3>BEGINNERS TO ADVANCE BOOK</h3> <a href="https://drive.google.com/file/d/1jE2YWgGjbHpn2O8cELywhYCIJYKFalJH/view?usp=sharing"><button>download</button></a></div>
-			<div class="container-box"><img src="pexels-north-1407322.jpg" class="img-background"><h3>ALL GUITAR CHORDS BOOK</h3><a href="https://drive.google.com/file/d/17aXU4FbUN4kxmiGDIFnvjT1ud_rxrUgl/view?usp=sharing"><button>download</button></a></div>
-			<div class="container-box"><img src="pexels-pixabay-33597.jpg" class="img-background"><h3>ADVANCE TO PRO</h3><a href="https://drive.google.com/file/d/17pn0cAm908SZO9Xm7dmkoXO82Cg8lOMQ/view?usp=sharing"><button>download</button></a></div>
-			<div class="container-box"><img src="pexels-brent-keane-1751731.jpg" class="img-background"><h3>ROCK BOOK</h3><a href="https://drive.google.com/file/d/1jE2YWgGjbHpn2O8cELywhYCIJYKFalJH/view?usp=sharing"><button>download</button></a></div>
-		
-		</div>
-		<h2 style="color: black;"><p>for more understanding more videos to watch click on <button><a href=""><p class="pcolor">more</p></a></button></p></h2>
-	</section>
-	<section class="section-one">
-		<h1 class="h1-color">BEGINNER</h1>
-		<h1 class="h1-color">KEYBOARD <p>quick series</p></h1>
+  <main>
+    <!-- About Me -->
+    <section>
+      <h2>About Me</h2>
+      <p>I am a Canadian job-ready DevOps and Fullstack Engineer with hands-on experience in AWS, Terraform, Kubernetes, Argo CD, CI/CD pipelines, Docker, and cloud-native deployments. I love automating workflows, deploying scalable systems, and optimizing developer productivity.</p>
+    </section>
 
-		<div class="container-one">
-			<div class="container-box"><img src="pexels-juan-pablo-serrano-arenas-1246437.jpg" class="img-background"><h3>history</h3><button>download</button></div>
-			<div class="container-box"><img src="pexels-pixabay-159420.jpg" class="img-background"><h3>history</h3><button>download</button></div>
-			<div class="container-box"><img src="pexels-pixabay-164743.jpg" class="img-background"><h3>history</h3><button>download</button></div>
-			<div class="container-box"><img src="pexels-steshka-willems-2592179.jpg" class="img-background"><h3>history</h3><button>download</button></div>
-		
-		<h1 style="color: black;"><p>for more understanding more videos to watch click on <button><a href=""><p class="pcolor">more</p></a></button></p></h1>
-	
-	</section>
-	
-	
-		<section class="section-two">
-		<div class="container-two">
-		<ul class="box">
-			<li>make</li>
-			<li> facebook</li>
-			<li>morney</li>
-		</ul>
-		<ul class="box">
-			<li>make</li>
-			<li> facebook</li>
-			<li>morney</li>
-		</ul>
-		<ul class="box">
-			<li>make</li>
-			<li> facebook</li>
-			<li>morney</li>
-		</ul>
-		</div>
-	</section>
-	<footer>
-		<h1>copyright</h1>
-	</footer>
+    <!-- Skills -->
+    <section>
+      <h2>Skills</h2>
+      <ul class="skills">
+        <li>AWS</li>
+        <li>Terraform</li>
+        <li>Kubernetes</li>
+        <li>Argo CD</li>
+        <li>CI/CD</li>
+        <li>Docker</li>
+        <li>Python</li>
+        <li>JavaScript</li>
+        <li>React.js</li>
+        <li>Linux</li>
+        <li>Git & GitHub Actions</li>
+      </ul>
+    </section>
 
+    <!-- Experience -->
+    <section>
+      <h2>Experience</h2>
+      <ul>
+        <li><strong>DevOps Engineer</strong> – FullProject Inc. (2025–2026)<br>
+            Managed multi-environment Terraform deployments, EKS clusters, Argo CD pipelines, and automated CI/CD with GitHub Actions.</li>
+        <li><strong>Fullstack Developer</strong> – Freelance Projects (2024–2025)<br>
+            Developed and deployed frontend and backend applications using React.js, Node.js, Docker, and AWS services.</li>
+      </ul>
+    </section>
+
+    <!-- Projects -->
+    <section>
+      <h2>Projects / Live App</h2>
+      <ul class="projects">
+        <li>FullProject: Kubernetes-based app with CI/CD via GitHub Actions & Argo CD</li>
+        <li>Terraform AWS Multi-Environment Infrastructure</li>
+        <li>Frontend App: React.js project live in AWS LoadBalancer</li>
+      </ul>
+      <div class="app-container" id="root">
+        <p>App will render here (attach your app.js)</p>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section>
+      <h2>Education</h2>
+      <ul>
+        <li>Bachelor’s in Computer Science – University of XYZ (2020–2024)</li>
+      </ul>
+    </section>
+
+    <!-- Contact -->
+    <section>
+      <h2>Contact</h2>
+      <p>Email: <a href="mailto:isaac@example.com">isaac@example.com</a></p>
+      <p>GitHub: <a href="https://github.com/dennis8050" target="_blank">github.com/dennis8050</a></p>
+      <p>LinkedIn: <a href="https://www.linkedin.com/in/isaac-dennis" target="_blank">linkedin.com/in/isaac-dennis</a></p>
+      <p>Phone: +1 (555) 123-4567</p>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2026 Isaac Dennis. All rights reserved.
+  </footer>
+
+  <!-- Mount your JS app -->
+  <script src="app.js"></script>
 </body>
 </html>
