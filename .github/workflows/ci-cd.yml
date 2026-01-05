@@ -77,7 +77,7 @@ jobs:
 
       - name: Terraform Plan
         working-directory: terraform/envs/dev
-        run: terraform plan -out=tfplan -input=false
+        run: terraform plan -out=tfplan 
 
       - name: Terraform Apply
         working-directory: terraform/envs/dev
