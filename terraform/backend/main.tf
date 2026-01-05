@@ -1,25 +1,25 @@
-variable "env" {}
+#variable "env" {}
 
-provider "aws" {
-  region = "us-east-1"
+#provider "aws" {
+  #region = "us-east-1"
 
-}
+#}
 
 # ------------------------------
 # S3 Bucket (Terraform Backend)
 # ------------------------------
-resource "aws_s3_bucket" "state" {
-  bucket = "terraformstatefile-${var.env}"
-}
+#resource "aws_s3_bucket" "state" {
+ # bucket = "terraformstatefile-${var.env}"
+#}
 
 # S3 Versioning (NEW REQUIRED RESOURCE)
-resource "aws_s3_bucket_versioning" "state_versioning" {
-  bucket = aws_s3_bucket.state.id
+#resource "aws_s3_bucket_versioning" "state_versioning" {
+ # bucket = aws_s3_bucket.state.id
 
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
+  #versioning_configuration {
+    #status = "Enabled"
+  #}
+#}
 
 # (Recommended) Server-Side Encryption
 resource "aws_s3_bucket_server_side_encryption_configuration" "state_encryption" {
