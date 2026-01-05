@@ -90,3 +90,5 @@ Thumbs.db
 *.bak
 *.old
 *~
+k8s/dev/alertmanager-slack-secret.yaml
+k8s/dev/alertmanager.yaml
