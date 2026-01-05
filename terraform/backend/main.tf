@@ -9,7 +9,7 @@ provider "aws" {
  #S3 Bucket (Terraform Backend)
  #------------------------------
 resource "aws_s3_bucket" "state" {
- # bucket = "terraformstatefile-${var.env}"
+  bucket = "terraformstatefile-${var.env}"
 }
 
  #S3 Versioning (NEW REQUIRED RESOURCE)
