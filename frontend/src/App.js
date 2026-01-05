@@ -37,7 +37,7 @@ function App() {
   return (
     <div className="container">
       <div className="card shadow-lg p-4">
-        <h2 className="text-center mb-4">User Application Form</h2>
+        <h2 className="text-center mb-4">User Application Form 2</h2>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
