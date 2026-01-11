@@ -3,7 +3,7 @@ name: PR Pipeline
 on:
   pull_request:
     branches:
-      -   # run CI on PRs targeting dev
+      -  dev # run CI on PRs targeting dev
 
 jobs:
   build-test:

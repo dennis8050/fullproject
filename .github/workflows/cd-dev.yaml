@@ -3,7 +3,7 @@ name: Dev CD Pipeline
 on:
   push:
     branches:
-      -   # trigger only when pushing to dev
+      -  dev # trigger only when pushing to dev
 
 jobs:
   build-test-push-deploy:
