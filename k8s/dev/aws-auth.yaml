@@ -10,15 +10,13 @@ data:
       groups:
         - system:bootstrappers
         - system:nodes
-        - dev-group
+
     - rolearn: arn:aws:iam::311141540332:role/userRole
       username: github-actions
       groups:
         - system:masters
 
-   # mapRoles: |
-   # - rolearn: arn:aws:iam::311141540332:role/EKSDevRole
-   # username: eks-dev
-    #groups:
-    #  - dev-group
-
+    - rolearn: arn:aws:iam::311141540332:role/EKSDevRole
+      username: eks-dev
+      groups:
+        - dev-group
