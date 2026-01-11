@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ebs-csi-controller-sa
+  namespace: kube-system
+  labels:
+    app.kubernetes.io/name: aws-ebs-csi-driver
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::311141540332:role/EBS_CSI_Controller_Role
