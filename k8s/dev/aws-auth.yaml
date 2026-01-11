@@ -16,9 +16,9 @@ data:
       groups:
         - system:masters
 
-    mapRoles: |
-    - rolearn: arn:aws:iam::311141540332:role/EKSDevRole
-    username: eks-dev
-    groups:
-      - dev-group
+   # mapRoles: |
+   # - rolearn: arn:aws:iam::311141540332:role/EKSDevRole
+   # username: eks-dev
+    #groups:
+    #  - dev-group
 
