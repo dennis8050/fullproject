@@ -1,0 +1,63 @@
+name: Production CD Pipeline
+
+on:
+  pull_request:
+    branches:
+      - prod
+    types:
+      - closed
+
+jobs:
+  deploy-prod:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production   # GitHub Environment (manual approval)
+
+    env:
+      KUBE_NAMESPACE: prod
+
+    steps:
+      # ---------------------------
+      # 1. Checkout repo
+      # ---------------------------
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # ---------------------------
+      # 2. Install kubectl
+      # ---------------------------
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+
+      # ---------------------------
+      # 3. Deploy to Production
+      # ---------------------------
+      - name: Deploy to Production
+        run: |
+          kubectl apply -f k8s/prod/namespace.yaml
+          kubectl apply -f k8s/prod
+
+      # ---------------------------
+      # 4. Verify rollout
+      # ---------------------------
+      - name: Verify rollout
+        run: |
+          kubectl rollout status deployment/frontend -n prod
+          kubectl rollout status deployment/backend -n prod
+
+      # ---------------------------
+      # 5. Slack notification
+      # ---------------------------
+      - name: Notify Slack
+        if: success()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text":"🚀 *PRODUCTION DEPLOYMENT SUCCESSFUL*\nCommit: '${{ github.sha }}'"}' \
+          $SLACK_WEBHOOK_URL

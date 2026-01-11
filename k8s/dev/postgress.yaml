@@ -12,35 +12,49 @@ spec:
     metadata:
       labels:
         app: postgres
-    spec:
+    spec:                      # ✅ THIS WAS MISSING
       containers:
         - name: postgres
           image: postgres:15
           ports:
             - containerPort: 5432
+
           env:
             - name: POSTGRES_DB
               valueFrom:
                 configMapKeyRef:
                   name: userapp-config
                   key: DB_NAME
+
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
                   name: userapp-secret
                   key: DB_USER
+
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: userapp-secret
                   key: DB_PASSWORD
+
           volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+
             - name: init-script
               mountPath: /docker-entrypoint-initdb.d
+
       volumes:
         - name: init-script
           configMap:
             name: userapp-config
+
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+
+
 ---
 apiVersion: v1
 kind: Service

@@ -18,18 +18,32 @@ spec:
           image: kofitone/dev-backend:59e5cb0d9eba5c3a72b52a1e72f98e6ae62756c0
           ports:
             - containerPort: 5000
+
           envFrom:
             - configMapRef:
-                name: userapp-config   # ConfigMap must exist in dev namespace
-            - secretRef:
-                name: userapp-secret   # Secret must exist in dev namespace
+                name: userapp-config
+            - secretRef: 
+                name: userapp-secret
+
+          volumeMounts:
+            - name: backend-secrets
+              mountPath: /etc/secrets
+              readOnly: true
+
           resources:
             requests:
-              cpu: "500m"      # minimum CPU guaranteed
-              memory: "512Mi"  # minimum RAM guaranteed
+              cpu: "500m"
+              memory: "512Mi"
             limits:
-              cpu: "1"         # maximum CPU allowed
-              memory: "1Gi"    # maximum RAM allowed
+              cpu: "1"
+              memory: "1Gi"
+
+      volumes:
+        - name: backend-secrets
+          secret:
+            secretName: userapp-secret
+
+
 ---
 apiVersion: v1
 kind: Service
