@@ -31,17 +31,15 @@ kind: Service
 metadata:
   name: frontend
   namespace: dev
-  annotations: 
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+  # Removed AWS load balancer annotation
 spec:
-  type: LoadBalancer       # type is correct here
+  type: ClusterIP       # Internal-only service, exposed via ingress
   selector:
     app: frontend
   ports:
-     - protocol: TCP
-       port: 80
-       targetPort: 80
-     
+    - protocol: TCP
+      port: 80
+      targetPort: 80
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler

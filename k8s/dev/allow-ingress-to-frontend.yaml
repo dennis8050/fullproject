@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-ingress-to-frontend
+  name: allow-alb-to-frontend
   namespace: dev
 spec:
   podSelector:
@@ -11,9 +11,8 @@ spec:
   - Ingress
   ingress:
   - from:
-    - namespaceSelector:
-        matchLabels:
-          kubernetes.io/metadata.name: ingress-nginx
+    - ipBlock:
+        cidr: 0.0.0.0/0   # allow all IPv4 addresses
     ports:
     - protocol: TCP
-      port: 3000   # or whatever port your frontend runs on
+      port: 80
