@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: kofitone/dev-backend:59e5cb0d9eba5c3a72b52a1e72f98e6ae62756c0
+          image: kofitone/dev-backend:ed24354c34d49b8f19b219f8f2cb374df4276c66
           ports:
             - containerPort: 5000
 
