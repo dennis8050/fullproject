@@ -81,7 +81,7 @@ jobs:
 
       - name: Terraform Apply
         working-directory: terraform/envs/dev
-        run: terraform destroy -auto-approve
+        run: terraform apply -auto-approve
 
       # ---------------------------
       # 6. Install kubectl
@@ -114,6 +114,7 @@ jobs:
         run: |
           kubectl apply -f k8s/dev/namespace.yaml
           kubectl apply -f k8s/dev 
+          kubectl apply -f k8s/dev/argocd
           
 
 
