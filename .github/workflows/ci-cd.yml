@@ -114,7 +114,7 @@ jobs:
         run: |
           kubectl apply -f k8s/dev/namespace.yaml
           kubectl apply -f k8s/dev 
-          kubectl apply -f k8s/dev/argocd
+          
           
 
 
