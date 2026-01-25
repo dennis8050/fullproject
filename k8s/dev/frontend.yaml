@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: kofitone/dev-frontend:ed24354c34d49b8f19b219f8f2cb374df4276c66
+          image: kofitone/dev-frontend:7d4ba321363d8e2d9d87e227c8929d3ad6ce7a28
           ports:
             - containerPort: 80
           resources:
