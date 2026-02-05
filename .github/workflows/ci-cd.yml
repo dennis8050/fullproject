@@ -57,7 +57,7 @@ jobs:
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::311141540332:role/userRole
+          role-to-assume: arn:aws:iam::311141540332:role/prod-github-actions
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Test identity
@@ -72,16 +72,16 @@ jobs:
           terraform_version: 1.11.4
 
       - name: Terraform Init
-        working-directory: terraform/envs/dev
+        working-directory: terraform/envs/prod
         run: terraform init -input=false
 
       - name: Terraform Plan
-        working-directory: terraform/envs/dev
+        working-directory: terraform/envs/prod
         run: terraform plan -out=tfplan -input=false
 
       - name: Terraform Apply
-        working-directory: terraform/envs/dev
-        run: terraform destroy -auto-approve
+        working-directory: terraform/envs/prod
+        run: terraform apply -auto-approve
 
       # ---------------------------
       # 6. Install kubectl
