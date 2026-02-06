@@ -85,18 +85,7 @@ jobs:
         working-directory: terraform/envs/prod
         run: terraform apply -auto-approve tfplan 
 
-      # ---------------------------
-      # 4. Authenticate with AWS using OIDC
-      # ---------------------------
-      - name: Configure AWS credentials via OIDC
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::311141540332:role/userRole
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Test identity
-        run: aws sts get-caller-identity
-
+     
       
       # ---------------------------
       # 6. Install kubectl
