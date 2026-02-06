@@ -69,8 +69,7 @@ jobs:
 
       - name: Terraform Apply
         working-directory: terraform/envs/prod
-        run: terraform apply -var-file="terraform.tfvars"
-
+        run: terraform apply -var-file="terraform.auto.tfvars" -auto-approve
 
       # ---------------------------
       # 4. Authenticate with AWS using OIDC
