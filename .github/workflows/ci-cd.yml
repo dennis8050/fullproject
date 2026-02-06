@@ -65,11 +65,11 @@ jobs:
 
       - name: Terraform Plan
         working-directory: terraform/envs/prod
-        run: terraform plan -out=tfplan -input=false
+        run: terraform plan -var-file="terraform.tfvars"
 
       - name: Terraform Apply
         working-directory: terraform/envs/prod
-        run: terraform apply -auto-approve
+        run: terraform apply -var-file="terraform.tfvars"
 
 
       # ---------------------------
