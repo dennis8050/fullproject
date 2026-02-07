@@ -3,6 +3,7 @@
 project_name   = "dens"
 env            = "prod"
 aws_region     = "us-east-1"
+oidc_role_arn   = "arn:aws:iam::311141540332:role/userRole"
 
 # VPC
 vpc_cidr        = "10.0.0.0/16"
