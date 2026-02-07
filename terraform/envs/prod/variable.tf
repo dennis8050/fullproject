@@ -2,7 +2,9 @@ variable "project_name" {}
 variable "env" {}
 variable "aws_region" {}
 variable "aws_account_id" {}
-
+variable "github_oidc_role_arn" {
+  
+}
 variable "vpc_cidr" {}
 variable "public_subnets" {
   type = list(string)
