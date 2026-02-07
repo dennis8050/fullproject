@@ -29,14 +29,6 @@ module "eks" {
   ]
 }
 
-module "github_actions" {
-  source         = "../../modules/iam-github-role"
-  project_name   = var.project_name
-  env            = var.env
-  aws_account_id = var.aws_account_id
-  github_repo    = var.github_repo
-  github_branch  = var.github_branch
-}
 
 
 

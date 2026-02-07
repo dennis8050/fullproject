@@ -20,7 +20,6 @@ frontend_repo_name = "frontend-prod"
 backend_repo_name  = "backend-prod"
 
 # GitHub (repo name is not secret)
-github_branch = "dev"
-github_repo = "dennis8050/fullproject"
+
 # Monitoring domain (public)
 monitoring_domain = "mygrafana.duckdns.org"
