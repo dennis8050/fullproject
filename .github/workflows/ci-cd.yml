@@ -110,7 +110,7 @@ jobs:
       # ---------------------------
       - name: Update kubeconfig
         run: |
-          aws eks update-kubeconfig --name dev-eks --region ${{ env.AWS_REGION }}
+          aws eks update-kubeconfig --name fullproject-prod --region ${{ env.AWS_REGION }}
 
       # ---------------------------
       # 9. Apply Kubernetes manifests (IMPORTANT)
