@@ -8,3 +8,6 @@ variable "private_subnets" {
 variable "project_name" {}
 variable "azs" {
 }
+variable "env" {
+  
+}

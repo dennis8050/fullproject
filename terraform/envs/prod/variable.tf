@@ -50,8 +50,5 @@ variable "ssl_certificate_arn" {
 variable "group_ids" {
   
 }
-variable "env" {
-  
-}
-  
+
 
