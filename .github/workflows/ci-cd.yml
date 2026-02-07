@@ -86,7 +86,7 @@ jobs:
 
       - name: Terraform Apply
         working-directory: terraform/envs/prod
-        run: terraform apply -auto-approve fplan
+        run: terraform apply -auto-approve tfplan
 
      
       
