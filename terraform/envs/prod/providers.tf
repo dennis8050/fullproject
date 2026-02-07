@@ -1,7 +1,10 @@
 provider "aws" {
   region = var.aws_region
    # Use OIDC from GitHub Actions
- 
+  assume_role {
+    role_arn     = var.github_oidc_role_arn
+    session_name = "github-actions"
+  }
 }
 
 data "aws_eks_cluster_auth" "eks" {
