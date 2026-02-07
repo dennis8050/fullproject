@@ -33,7 +33,9 @@ variable "github_repo" {
 }
 variable "github_branch" {
 }
-
+variable "github_oidc_role_arn" {
+  
+}
 variable "sso_client_id" {  }
 variable "sso_client_secret" {  }
 variable "sso_auth_url" {  }
@@ -46,6 +48,9 @@ variable "ssl_certificate_arn" {
 }
 
 variable "group_ids" {
+  
+}
+variable "env" {
   
 }
   
