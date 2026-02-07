@@ -75,7 +75,9 @@ jobs:
 
       - name: Terraform Init
         working-directory: terraform/envs/prod
-        run: terraform init -input=false
+        run:  terraform init -migrate-state
+        #run: terraform init -input=false
+
 
       - name: Terraform Plan
         working-directory: terraform/envs/prod
