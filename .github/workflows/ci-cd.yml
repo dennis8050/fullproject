@@ -83,7 +83,7 @@ jobs:
 
       - name: Terraform Apply
         working-directory: terraform/envs/prod
-        run: terraform destroy -auto-approve fplan
+        run: terraform apply -auto-approve fplan
 
      
       
