@@ -59,8 +59,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::311141540332:role/userRole
           aws-region: ${{ env.AWS_REGION }}
-          role-session-name: GitHubActions
-
+        
       - name: Test identity
         run: aws sts get-caller-identity
 
@@ -76,9 +75,9 @@ jobs:
 
       - name: Terraform Init
         working-directory: terraform/envs/prod
-        #run:  terraform init -reconfigure
+        run:  terraform init -reconfigure
 
-        run: terraform init -input=false
+        #run: terraform init -input=false
 
 
       - name: Terraform Plan

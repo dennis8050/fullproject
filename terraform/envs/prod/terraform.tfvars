@@ -3,7 +3,7 @@
 project_name   = "dens"
 env            = "prod"
 aws_region     = "us-east-1"
-github_oidc_role_arn = "arn:aws:iam::311141540332:role/userRole"
+
 # VPC
 vpc_cidr        = "10.0.0.0/16"
 public_subnets  = ["10.0.1.0/24", "10.0.2.0/24"]
