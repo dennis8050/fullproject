@@ -1,6 +1,6 @@
 # ===== NON SECRET VALUES (SAFE IN GIT) =====
 
-project_name   = "denlab"
+project_name   = "dens"
 env            = "prod"
 aws_region     = "us-east-1"
 github_oidc_role_arn = "arn:aws:iam::311141540332:role/userRole"
