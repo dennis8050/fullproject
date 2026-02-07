@@ -22,10 +22,7 @@ variable "eks_node_type" {}
 variable "eks_node_count" {}
 
 
-variable "github_repo" {
-}
-variable "github_branch" {
-}
+
 
 
 
