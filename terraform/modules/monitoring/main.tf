@@ -81,7 +81,7 @@ resource "helm_release" "loki" {
     yamlencode({
       persistence = {
         enabled       = true
-        existingClaim = module.loki_storage.pvc_name  # Use the PVC from your storage module
+        existingClaim = var.loki_existing_claim  
       }
       config = {
         table_manager = {
