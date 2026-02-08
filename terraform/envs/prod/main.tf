@@ -71,7 +71,7 @@ module "monitoring" {
 
 }
 module "loki_storage" {
-  source             = "./modules/storage"
+  source             = "../modules/storage"
   namespace          = "monitoring"
   storage_class_name = "standard"
   app_name           = "loki"
