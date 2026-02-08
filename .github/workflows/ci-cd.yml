@@ -75,9 +75,9 @@ jobs:
 
       - name: Terraform Init
         working-directory: terraform/envs/prod
-        run:  terraform init -reconfigure
+        #run:  terraform init -reconfigure
 
-        #run: terraform init -input=false
+        run: terraform init -input=false
 
 
       - name: Terraform Plan
@@ -86,8 +86,7 @@ jobs:
 
       - name: Terraform Apply
         working-directory: terraform/envs/prod
-        run: terraform destroy -auto-approve -var="aws_account_id=${{ secrets.TF_AWS_ACCOUNT_ID }}" -var="sso_instance_arn=${{ secrets.TF_SSO_INSTANCE_ARN }}" -var="ssl_certificate_arn=${{ secrets.TF_SSL_CERT_ARN }}" -var='group_ids=${{ secrets.TF_GROUP_IDS }}' -var="sso_client_id=${{ secrets.TF_SSO_CLIENT_ID }}" -var="sso_client_secret=${{ secrets.TF_SSO_CLIENT_SECRET }}" -var="sso_auth_url=${{ secrets.TF_SSO_AUTH_URL }}" -var="sso_token_url=${{ secrets.TF_SSO_TOKEN_URL }}" -var="sso_api_url=${{ secrets.TF_SSO_API_URL }}" -var="oidc_role_arn=${{secrets.oidc_role_arn}}"
- 
+        run: terraform apply -auto-approve tfplan
 
      
       
