@@ -49,7 +49,13 @@ module "argocd" {
 }
 
 
-
+module "loki_storage" {
+  source             = "../../modules/storage"
+ 
+  storage_class_name = "gp2"
+  app_name           = "loki"
+  storage_size       = "10Gi"
+}
 
 module "monitoring" {
   source = "../../modules/monitoring"
@@ -62,27 +68,18 @@ module "monitoring" {
   sso_api_url = var.sso_api_url
   monitoring_domain = var.monitoring_domain
   ssl_certificate_arn = var.ssl_certificate_arn
-
+ loki_existing_claim = module.loki_storage.pvc_name
 
  depends_on = [
   module.eks
  
 ]
- loki_existing_claim = module.loki_storage.pvc_name
+
 
 }
-module "loki_storage" {
-  source             = "../../modules/storage"
- 
-  storage_class_name = "gp2"
-  app_name           = "loki"
-  storage_size       = "10Gi"
-}
 
-# Output PVC name (optional)
-output "loki_pvc_name" {
-  value = module.loki_storage.pvc_name
-}
+
+
 
 
 
