@@ -68,6 +68,7 @@ module "monitoring" {
   module.eks,
   module.loki_storage
 ]
+ loki_existing_claim = module.loki_storage.pvc_name
 
 }
 module "loki_storage" {

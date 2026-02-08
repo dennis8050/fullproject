@@ -1,6 +1,7 @@
 
 
-resource "kubernetes_persistent_volume_claim" "app_pvc" {
+resource "kubernetes_persistent_volume_claim_v1" "app_pvc" {
+
   metadata {
     name      = "${var.app_name}-pvc"
     namespace = var.namespace
