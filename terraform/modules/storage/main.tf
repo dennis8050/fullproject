@@ -1,7 +1,4 @@
-variable "namespace" {}
-variable "storage_class_name" {}
-variable "app_name" {}
-variable "storage_size" {}
+
 
 resource "kubernetes_persistent_volume_claim" "app_pvc" {
   metadata {
