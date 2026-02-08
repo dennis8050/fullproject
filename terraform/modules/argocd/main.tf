@@ -23,12 +23,8 @@ locals {
       "alb.ingress.kubernetes.io/target-type"  = "ip"
       "alb.ingress.kubernetes.io/listen-ports" = "[{\"HTTP\":80}]"
     }
-    paths = [
-      {
-        path     = "/"
-        pathType = "Prefix"
-      }
-    ]
+    # <-- FIX: paths must be a list of strings
+    paths = ["/"]
   } : {
     enabled          = false
     ingressClassName = ""

@@ -74,9 +74,23 @@ resource "helm_release" "loki" {
   version    = "5.41.0"
   timeout    = 900
 
-  # THIS WILL FORCE HELM TO TAKE OVER EXISTING RESOURCES
   force_update = true
   replace      = true
+
+  values = [
+    yamlencode({
+      persistence = {
+        enabled       = true
+        existingClaim = module.loki_storage.pvc_name  # Use the PVC from your storage module
+      }
+      config = {
+        table_manager = {
+          retention_deletes_enabled = true
+          retention_period           = "7d"
+        }
+      }
+    })
+  ]
 }
 
 # ----------------------------
