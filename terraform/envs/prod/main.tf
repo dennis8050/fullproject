@@ -65,16 +65,16 @@ module "monitoring" {
 
 
  depends_on = [
-  module.eks,
-  module.loki_storage
+  module.eks
+ 
 ]
  loki_existing_claim = module.loki_storage.pvc_name
 
 }
 module "loki_storage" {
   source             = "../../modules/storage"
-  namespace          = "monitoring"
-  storage_class_name = "standard"
+ 
+  storage_class_name = "gp2"
   app_name           = "loki"
   storage_size       = "10Gi"
 }
