@@ -48,6 +48,3 @@ variable "group_ids" {
   
 }
 
-variable "loki_existing_claim" {
-  
-}
