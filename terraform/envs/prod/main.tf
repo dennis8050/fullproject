@@ -68,13 +68,14 @@ module "monitoring" {
   sso_api_url = var.sso_api_url
   monitoring_domain = var.monitoring_domain
   ssl_certificate_arn = var.ssl_certificate_arn
- loki_existing_claim = module.loki_storage.pvc_name
+
 
  depends_on = [
-  module.eks
+  module.eks,
+  module.loki_storage
  
 ]
-
+ loki_existing_claim = module.loki_storage.pvc_name
 
 }
 
