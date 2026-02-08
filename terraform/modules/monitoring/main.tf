@@ -91,8 +91,8 @@ resource "helm_release" "loki" {
       }
     })
   ]
-   depends_on = [
-    module.loki_storage
+  depends_on = [
+    kubernetes_namespace_v1.monitoring
   ]
 }
 

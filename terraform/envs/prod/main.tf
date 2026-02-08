@@ -55,6 +55,10 @@ module "loki_storage" {
   storage_class_name = "gp2"
   app_name           = "loki"
   storage_size       = "10Gi"
+  depends_on = [
+  module.eks
+ 
+]
 }
 
 module "monitoring" {
