@@ -1,4 +1,5 @@
-# modules/addon/ebs_csi_driver.tf
+
+
 resource "helm_release" "ebs_csi_driver" {
   name       = "aws-ebs-csi-driver"
   repository = "https://kubernetes-sigs.github.io/aws-ebs-csi-driver"
@@ -6,9 +7,7 @@ resource "helm_release" "ebs_csi_driver" {
   version    = "2.25.0"
   namespace  = "kube-system"
 
-  depends_on = [
-    aws_iam_role_policy_attachment.ebs_csi_attach
-  ]
+  depends_on = [] # no need to reference the attachment directly
 
   values = [
     yamlencode({
