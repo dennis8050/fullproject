@@ -1,47 +1,42 @@
-# Fetch EKS cluster details
-data "aws_eks_cluster" "cluster" {
+############################################
+# Fetch EKS Cluster
+############################################
+data "aws_eks_cluster" "this" {
   name = var.cluster_name
 }
 
-# Fetch cluster auth token (optional, only if you need kubernetes provider later)
-data "aws_eks_cluster_auth" "cluster" {
-  name = var.cluster_name
+############################################
+# Fetch OIDC TLS Thumbprint
+############################################
+data "tls_certificate" "eks" {
+  url = data.aws_eks_cluster.this.identity[0].oidc[0].issuer
 }
 
-# Fetch TLS certificate of the OIDC issuer to get thumbprint
-data "tls_certificate" "eks_thumbprint" {
-  url = data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer
-}
-
-# Create OIDC provider for IRSA
-resource "aws_iam_openid_connect_provider" "oidc" {
+############################################
+# Create OIDC Provider (IRSA)
+############################################
+resource "aws_iam_openid_connect_provider" "eks" {
+  url             = data.aws_eks_cluster.this.identity[0].oidc[0].issuer
   client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = [data.tls_certificate.eks_thumbprint.certificates[0].sha1_fingerprint]
-  url             = replace(data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer, "https://", "")
+  thumbprint_list = [data.tls_certificate.eks.certificates[0].sha1_fingerprint]
 }
 
-# Create IRSA role for ALB ingress (example)
-resource "aws_iam_role" "irsa_ingress" {
-  name = "${var.cluster_name}-ingress-irsa"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [{
-      Effect = "Allow",
-      Principal = {
-        Federated = aws_iam_openid_connect_provider.oidc.arn
-      },
-      Action = "sts:AssumeRoleWithWebIdentity",
-      Condition = {
-        StringEquals = {
-          "${replace(data.aws_eks_cluster.cluster.name, "-", "_")}:sub" = "system:serviceaccount:kube-system:alb-ingress-controller"
-        }
-      }
-    }]
-  })
+############################################
+# Shared Local (OIDC URL without https://)
+############################################
+locals {
+  oidc_provider_url = replace(
+    aws_iam_openid_connect_provider.eks.url,
+    "https://",
+    ""
+  )
 }
-resource "aws_iam_role" "argocd_irsa" {
-  name = "${var.cluster_name}-${var.env}-argocd-role"
+
+############################################
+# IRSA: AWS Load Balancer Controller
+############################################
+resource "aws_iam_role" "alb_irsa" {
+  name = "${var.cluster_name}-alb-irsa"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -53,15 +48,61 @@ resource "aws_iam_role" "argocd_irsa" {
       }
       Condition = {
         StringEquals = {
-          "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub" =
-          "system:serviceaccount:argocd:argocd-server"
+          "${local.oidc_provider_url}:sub" = "system:serviceaccount:kube-system:aws-load-balancer-controller"
         }
       }
     }]
   })
-
-  tags = {
-    Name = "${var.cluster_name}-${var.env}-argocd-irsa"
-  }
 }
 
+############################################
+# IRSA: ArgoCD
+############################################
+resource "aws_iam_role" "argocd_irsa" {
+  name = "${var.cluster_name}-${var.env}-argocd-irsa"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Action = "sts:AssumeRoleWithWebIdentity"
+      Principal = {
+        Federated = aws_iam_openid_connect_provider.eks.arn
+      }
+      Condition = {
+        StringEquals = {
+          "${local.oidc_provider_url}:sub" ="system:serviceaccount:argocd:argocd-server"
+        }
+      }
+    }]
+  })
+}
+
+############################################
+# IRSA: EBS CSI Driver
+############################################
+resource "aws_iam_role" "ebs_csi_irsa" {
+  name = "${var.cluster_name}-ebs-csi-irsa"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Action = "sts:AssumeRoleWithWebIdentity"
+      Principal = {
+        Federated = aws_iam_openid_connect_provider.eks.arn
+      }
+      Condition = {
+        StringEquals = {
+          "${local.oidc_provider_url}:sub" =
+          "system:serviceaccount:kube-system:ebs-csi-controller-sa"
+        }
+      }
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ebs_csi_attach" {
+  role       = aws_iam_role.ebs_csi_irsa.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+}

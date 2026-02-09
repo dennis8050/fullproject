@@ -83,6 +83,20 @@ module "monitoring" {
 
 }
 
+module "irsa-role" {
+  source       = "../../modules/irsa-role"
+  cluster_name = var.module.eks.cluster_name
+  env          = var.env
+  region = var.aws_region
+}
+
+
+module "eks-addons" {
+  source = "../../modules/eks-addons"
+  
+  # Pass the EBS IRSA role ARN to the Helm module
+  ebs_csi_irsa_arn = module.irsa-role.ebs_csi_irsa_arn
+}
 
 
 
