@@ -93,7 +93,7 @@ resource "aws_eks_node_group" "nodes" {
 # EKS oidc creation
 ############################
 data "aws_eks_cluster" "this" {
-  name = aws_eks_cluster.eks.name
+  name = aws_eks_cluster.this.name
 }
 
 data "tls_certificate" "eks" {
