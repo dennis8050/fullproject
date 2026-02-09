@@ -9,3 +9,6 @@ variable "create_oidc_provider" {
   type    = bool
   default = false
 }
+variable "vpc_id" {
+  
+}
