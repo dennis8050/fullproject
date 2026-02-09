@@ -77,8 +77,8 @@ jobs:
         working-directory: terraform/envs/prod
         #run:  terraform init -reconfigure
 
-        run: terraform init -input=false
-
+       # run: terraform init -input=false
+        run: terraform init -upgrade
 
       - name: Terraform Plan
         working-directory: terraform/envs/prod
