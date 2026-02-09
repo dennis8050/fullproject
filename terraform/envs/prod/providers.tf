@@ -4,6 +4,13 @@ provider "aws" {
   
 }
 
+data "aws_eks_cluster" "this" {
+  name = module.eks.cluster_name  # use output from your eks module
+}
+
+
+
+
 data "aws_eks_cluster_auth" "eks" {
   name = module.eks.cluster_name
 }

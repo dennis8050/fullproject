@@ -85,7 +85,7 @@ module "monitoring" {
 
 module "irsa-role" {
   source       = "../../modules/irsa-role"
-  cluster_name = var.module.eks.cluster_name
+  cluster_name = module.eks.cluster_name
   env          = var.env
   region = var.aws_region
 }
