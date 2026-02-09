@@ -20,7 +20,9 @@ variable "backend_repo_name" {}
 
 variable "eks_node_type" {}
 variable "eks_node_count" {}
-
+variable "vpc_id" {
+  
+}
 
 
 

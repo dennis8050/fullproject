@@ -1,6 +1,4 @@
-# -----------------------------
-# EKS Cluster Outputs
-# -----------------------------
+# EKS cluster outputs
 output "cluster_name" {
   value = aws_eks_cluster.this.name
 }
@@ -13,18 +11,14 @@ output "cluster_certificate" {
   value = aws_eks_cluster.this.certificate_authority[0].data
 }
 
-# -----------------------------
-# OIDC Provider Outputs
-# -----------------------------
-# Use a data source to safely reference an existing OIDC provider
-data "aws_iam_openid_connect_provider" "eks" {
-  url = "https://oidc.eks.${var.aws_region}.amazonaws.com/id/${module.eks.cluster_oidc_id}"
-}
-
+# OIDC Provider ARN
 output "oidc_provider_arn" {
-  value = data.aws_iam_openid_connect_provider.eks.arn
+  value = aws_iam_openid_connect_provider.this.*.arn[0] # safe even if count = 0
+  description = "ARN of the OIDC provider for the cluster"
 }
 
+# OIDC Provider URL
 output "oidc_provider_url" {
-  value = data.aws_iam_openid_connect_provider.eks.url
+  value = aws_iam_openid_connect_provider.this.*.url[0] # safe even if count = 0
+  description = "URL of the OIDC provider for the cluster"
 }

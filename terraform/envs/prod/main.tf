@@ -18,16 +18,26 @@ module "vpc" {
 module "eks" {
   source       = "../../modules/eks"
   cluster_name = "${var.project_name}-${var.env}"
-  vpc_id       = module.vpc.vpc_id
-  private_subnets      = module.vpc.private_subnets
   
+  private_subnets      = module.vpc.private_subnets
   node_type    = var.eks_node_type
   node_count   = var.eks_node_count
-aws_region = var.aws_region
+   aws_region = var.aws_region
+  create_oidc_provider = true
+
     depends_on = [
     module.vpc
   ]
 }
+
+output "eks_oidc_arn" {
+  value = module.eks.oidc_provider_arn
+}
+
+output "eks_oidc_url" {
+  value = module.eks.oidc_provider_url
+}
+
 
 
 
