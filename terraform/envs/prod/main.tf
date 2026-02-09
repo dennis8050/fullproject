@@ -23,7 +23,7 @@ module "eks" {
   
   node_type    = var.eks_node_type
   node_count   = var.eks_node_count
-
+aws_region = var.aws_region
     depends_on = [
     module.vpc
   ]
