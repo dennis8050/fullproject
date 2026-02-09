@@ -11,3 +11,6 @@ variable "create_oidc_provider" {
   type    = bool
   default = false
 }
+variable "aws_region" {
+  
+}
