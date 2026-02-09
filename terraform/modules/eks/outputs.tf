@@ -11,9 +11,11 @@ output "cluster_certificate" {
 }
 
 output "oidc_provider_arn" {
-  value = aws_iam_openid_connect_provider.this.arn
+  value = aws_iam_openid_connect_provider.this[0].arn
 }
 
+
 output "oidc_provider_url" {
-  value = aws_iam_openid_connect_provider.this.url
+  value = aws_iam_openid_connect_provider.this[0].url
 }
+
