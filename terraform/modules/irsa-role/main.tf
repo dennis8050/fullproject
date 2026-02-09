@@ -94,8 +94,7 @@ resource "aws_iam_role" "ebs_csi_irsa" {
       }
       Condition = {
         StringEquals = {
-          "${local.oidc_provider_url}:sub" =
-          "system:serviceaccount:kube-system:ebs-csi-controller-sa"
+          "${local.oidc_provider_url}:sub" ="system:serviceaccount:kube-system:ebs-csi-controller-sa"
         }
       }
     }]
