@@ -31,12 +31,13 @@ provider "kubernetes" {
   host                   = module.eks.cluster_endpoint
   cluster_ca_certificate = base64decode(module.eks.cluster_certificate)
   token                  = module.eks.cluster_token
+   
 }
 
 ##########################################################
 # Helm Provider
-# Uses same Kubernetes provider
-##########################################################
+# Uses same Kubernetes provider 
+########################################################## note  module.eks.cluster_token uses the outputs.tf to send data to this provider
 provider "helm" {
   kubernetes = {
     host                   = module.eks.cluster_endpoint

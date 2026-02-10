@@ -38,7 +38,14 @@ output "eks_oidc_url" {
   value = module.eks.oidc_provider_url
 }
 
+# Wait for cluster API to be ready (optional but prevents race conditions)
+resource "null_resource" "wait_for_eks" {
+  depends_on = [module.eks]
 
+  provisioner "local-exec" {
+    command = "sleep 30"
+  }
+}
 
 
 
@@ -53,9 +60,7 @@ module "argocd" {
     env       = var.env
   namespace = "argocd-${var.env}"
 
-    depends_on = [
-    module.eks
-  ]
+    depends_on = [null_resource.wait_for_eks]
 }
 
 
