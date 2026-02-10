@@ -2,6 +2,7 @@
 # Namespace for ArgoCD
 # -----------------------------
 resource "kubernetes_namespace_v1" "argocd" {
+  provider = kubernetes.eks
   metadata {
     name = var.namespace
     labels = {
