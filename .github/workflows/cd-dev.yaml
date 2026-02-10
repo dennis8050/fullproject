@@ -9,7 +9,7 @@ jobs:
   build-test-push-deploy:
     runs-on: ubuntu-latest
     env:
-      KUBE_NAMESPACE: dev
+      KUBE_NAMESPACE: 
 
     steps:
       # ---------------------------
