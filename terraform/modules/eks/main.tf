@@ -91,6 +91,13 @@ resource "aws_eks_node_group" "nodes" {
 }
 
 ############################
+# EKS Cluster Auth Token
+############################
+data "aws_eks_cluster_auth" "this" {
+  name = aws_eks_cluster.this.name
+}
+
+############################
 # EKS OIDC Creation
 ############################
 # Only create OIDC if flag is true
