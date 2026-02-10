@@ -93,11 +93,17 @@ module "monitoring" {
 
 }
 
+
+
 module "irsa-role" {
-  source       = "../../modules/irsa-role"
-  cluster_name = module.eks.cluster_name
-  env          = var.env
-  region = var.aws_region
+  source = "../../modules/irsa-role"
+
+  cluster_name        = module.eks.cluster_name
+  env                 = var.env
+  oidc_provider_arn   = module.eks.oidc_provider_arn
+  oidc_provider_url   = module.eks.oidc_provider_url
+  
+  depends_on = [module.eks]
 }
 
 

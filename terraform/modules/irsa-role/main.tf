@@ -1,35 +1,8 @@
 ############################################
-# Fetch EKS Cluster
-############################################
-data "aws_eks_cluster" "this" {
-  name = var.cluster_name
-}
-
-############################################
-# Fetch OIDC TLS Thumbprint
-############################################
-data "tls_certificate" "eks" {
-  url = data.aws_eks_cluster.this.identity[0].oidc[0].issuer
-}
-
-############################################
-# Create OIDC Provider (IRSA)
-############################################
-resource "aws_iam_openid_connect_provider" "eks" {
-  url             = data.aws_eks_cluster.this.identity[0].oidc[0].issuer
-  client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = [data.tls_certificate.eks.certificates[0].sha1_fingerprint]
-}
-
-############################################
-# Shared Local (OIDC URL without https://)
+# Locals
 ############################################
 locals {
-  oidc_provider_url = replace(
-    aws_iam_openid_connect_provider.eks.url,
-    "https://",
-    ""
-  )
+  oidc_provider_url = replace(var.oidc_provider_url, "https://", "")
 }
 
 ############################################
@@ -44,11 +17,11 @@ resource "aws_iam_role" "alb_irsa" {
       Effect = "Allow"
       Action = "sts:AssumeRoleWithWebIdentity"
       Principal = {
-        Federated = aws_iam_openid_connect_provider.eks.arn
+        Federated = var.oidc_provider_arn
       }
       Condition = {
         StringEquals = {
-          "${local.oidc_provider_url}:sub" = "system:serviceaccount:kube-system:aws-load-balancer-controller"
+          "${local.oidc_provider_url}:sub" ="system:serviceaccount:kube-system:aws-load-balancer-controller"
         }
       }
     }]
@@ -67,7 +40,7 @@ resource "aws_iam_role" "argocd_irsa" {
       Effect = "Allow"
       Action = "sts:AssumeRoleWithWebIdentity"
       Principal = {
-        Federated = aws_iam_openid_connect_provider.eks.arn
+        Federated = var.oidc_provider_arn
       }
       Condition = {
         StringEquals = {
@@ -90,7 +63,7 @@ resource "aws_iam_role" "ebs_csi_irsa" {
       Effect = "Allow"
       Action = "sts:AssumeRoleWithWebIdentity"
       Principal = {
-        Federated = aws_iam_openid_connect_provider.eks.arn
+        Federated = var.oidc_provider_arn
       }
       Condition = {
         StringEquals = {
