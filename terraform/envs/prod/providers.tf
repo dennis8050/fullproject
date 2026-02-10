@@ -16,38 +16,31 @@ terraform {
 
   required_version = ">= 1.14.4"
 }
-
+##########################################################
+# AWS Provider
+##########################################################
 provider "aws" {
   region = var.aws_region
 }
 
-# -----------------------------
-# Data sources for EKS cluster
-# -----------------------------
-data "aws_eks_cluster" "this" {
-  name = module.eks.cluster_name
-}
-
-data "aws_eks_cluster_auth" "this" {
-  name = module.eks.cluster_name
-}
-
-# -----------------------------
-# Kubernetes provider
-# -----------------------------
+##########################################################
+# Kubernetes Provider
+# Uses outputs from the EKS module
+##########################################################
 provider "kubernetes" {
-  host                   = data.aws_eks_cluster.this.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.this.certificate_authority[0].data)
+  host                   = module.eks.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks.cluster_certificate)
   token                  = module.eks.cluster_token
 }
 
-# -----------------------------
-# Helm provider
-# -----------------------------
+##########################################################
+# Helm Provider
+# Uses same Kubernetes provider
+##########################################################
 provider "helm" {
-  kubernetes ={
-    host                   = data.aws_eks_cluster.this.endpoint
-    cluster_ca_certificate = base64decode(data.aws_eks_cluster.this.certificate_authority[0].data)
+  kubernetes = {
+    host                   = module.eks.cluster_endpoint
+    cluster_ca_certificate = base64decode(module.eks.cluster_certificate)
     token                  = module.eks.cluster_token
   }
 }
