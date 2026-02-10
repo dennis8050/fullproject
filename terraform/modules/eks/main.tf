@@ -30,9 +30,7 @@ resource "aws_eks_cluster" "this" {
     subnet_ids = var.private_subnets
   }
 
-  depends_on = [
-    aws_iam_role_policy_attachment.cluster_policy
-  ]
+  depends_on = [aws_iam_role_policy_attachment.cluster_policy]
 }
 
 ############################
@@ -89,21 +87,24 @@ resource "aws_eks_node_group" "nodes" {
     aws_iam_role_policy_attachment.node_registry
   ]
 }
+
 ############################
-# EKS oidc creation
+# EKS OIDC Creation
 ############################
-# Fetch cluster info
+# Fetch cluster info after it's created
 data "aws_eks_cluster" "this" {
   name = aws_eks_cluster.this.name
 }
+
 data "aws_eks_cluster_auth" "this" {
   name = aws_eks_cluster.this.name
 }
+
 data "tls_certificate" "eks" {
   url = data.aws_eks_cluster.this.identity[0].oidc[0].issuer
 }
 
-# Create OIDC provider only if it doesn't exist
+# Create OIDC provider only if needed
 resource "aws_iam_openid_connect_provider" "this" {
   count           = var.create_oidc_provider ? 1 : 0
   url             = data.aws_eks_cluster.this.identity[0].oidc[0].issuer
@@ -111,3 +112,13 @@ resource "aws_iam_openid_connect_provider" "this" {
   thumbprint_list = [data.tls_certificate.eks.certificates[0].sha1_fingerprint]
 }
 
+############################
+# Shared Local (OIDC URL without https://)
+############################
+locals {
+  oidc_provider_url = var.create_oidc_provider ? replace(
+    aws_iam_openid_connect_provider.this[0].url,
+    "https://",
+    ""
+  ) : ""
+}
