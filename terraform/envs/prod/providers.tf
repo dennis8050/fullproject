@@ -28,7 +28,7 @@ provider "aws" {
 # Uses outputs from the EKS module
 ##########################################################
 provider "kubernetes" {
-  alias = "eks"
+  
   host                   = module.eks.cluster_endpoint
   cluster_ca_certificate = base64decode(module.eks.cluster_certificate)
   token                  = module.eks.cluster_token
