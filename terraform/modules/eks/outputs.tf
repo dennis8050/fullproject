@@ -22,3 +22,6 @@ output "oidc_provider_url" {
   value = aws_iam_openid_connect_provider.this.*.url[0] # safe even if count = 0
   description = "URL of the OIDC provider for the cluster"
 }
+output "cluster_token" {
+  value = data.aws_eks_cluster_auth.this.token
+}
