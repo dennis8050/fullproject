@@ -1,28 +1,49 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 6.31.0"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 2.25.0"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">= 2.10.0"
+    }
+  }
+
+  required_version = ">= 1.14.4"
+}
+
 provider "aws" {
   region = var.aws_region
 }
 
-# Token only (this is correct)
+# -----------------------------
+# Data sources for EKS cluster
+# -----------------------------
+data "aws_eks_cluster" "this" {
+  name = module.eks.cluster_name
+}
+
 data "aws_eks_cluster_auth" "this" {
   name = module.eks.cluster_name
 }
 
-# Kubernetes provider (USE MODULE OUTPUTS)
+# -----------------------------
+# Kubernetes provider
+# -----------------------------
 provider "kubernetes" {
-  host                   = module.eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks.cluster_certificate)
+  host                   = data.aws_eks_cluster.this.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.this.certificate_authority[0].data)
   token                  = data.aws_eks_cluster_auth.this.token
-
-  
 }
 
-# Helm provider (USE MODULE OUTPUTS)
+# -----------------------------
+# Helm provider
+# -----------------------------
 provider "helm" {
-  kubernetes = {
-    host                   = module.eks.cluster_endpoint
-    cluster_ca_certificate = base64decode(module.eks.cluster_certificate)
-    token                  = data.aws_eks_cluster_auth.this.token
-  }
-
- 
+  kubernetes = kubernetes
 }
