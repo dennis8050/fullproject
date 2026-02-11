@@ -3,7 +3,7 @@ name: Full-Stack CI/CD Pipeline
 on:
   push:
     branches:
-      - dev
+      - 
 
 permissions:
   id-token: write        # REQUIRED FOR OIDC
@@ -74,14 +74,14 @@ jobs:
           terraform_version: 1.14.4
 
       - name: Terraform Init
-        working-directory: terraform/envs/prod
+        working-directory: terraform/envs/prod/infra
         run:  terraform init -reconfigure
 
         #run: terraform init -input=false
         #run: terraform init -upgrade
 
       - name: Terraform Plan
-        working-directory: terraform/envs/prod
+        working-directory: terraform/envs/prod/infra
         run: terraform plan -out=tfplan -var="aws_account_id=${{ secrets.TF_AWS_ACCOUNT_ID }}" -var="sso_instance_arn=${{ secrets.TF_SSO_INSTANCE_ARN }}" -var="ssl_certificate_arn=${{ secrets.TF_SSL_CERT_ARN }}" -var='group_ids=${{ secrets.TF_GROUP_IDS }}' -var="sso_client_id=${{ secrets.TF_SSO_CLIENT_ID }}" -var="sso_client_secret=${{ secrets.TF_SSO_CLIENT_SECRET }}" -var="sso_auth_url=${{ secrets.TF_SSO_AUTH_URL }}" -var="sso_token_url=${{ secrets.TF_SSO_TOKEN_URL }}" -var="sso_api_url=${{ secrets.TF_SSO_API_URL }}" -var="oidc_role_arn=${{secrets.oidc_role_arn}}"
 
       - name: Terraform Apply
