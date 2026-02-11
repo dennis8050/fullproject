@@ -59,6 +59,10 @@ jobs:
         with:
           role-to-assume: ${{ secrets.oidc_role_arn }}
           aws-region: ${{ env.AWS_REGION }}
+      - name: Setup kubeconfig
+        run: |
+          aws eks update-kubeconfig  --name ${{ env.CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
+
 
       - name: Terraform Init (PLATFORM)
         working-directory: terraform/envs/prod/platform
