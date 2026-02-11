@@ -55,7 +55,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
       - name: Setup kubeconfig
         run: |
-          aws eks update-kubeconfig  --name ${{ env.CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
+          aws eks update-kubeconfig  --name dens-prod --region ${{ env.AWS_REGION }}
 
 
       - name: Terraform Init (PLATFORM)
