@@ -33,3 +33,6 @@ variable "sso_api_url"   { type = string }
 variable "group_ids" {
   type = list(string)
 }
+
+variable "aws_account_id" {}
+variable "oidc_role_arn" {}
