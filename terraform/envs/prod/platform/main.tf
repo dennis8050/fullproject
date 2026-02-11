@@ -1,6 +1,7 @@
 module "argocd" {
-  source    = "../../modules/argocd"
+  source    = "../../../modules/argocd"
   namespace = "argocd-prod"
+  env = var.env
 }
 
 module "monitoring" {
