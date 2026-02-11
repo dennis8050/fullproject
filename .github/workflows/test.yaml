@@ -37,10 +37,7 @@ jobs:
       - name: Terraform Apply (INFRA)
         working-directory: terraform/envs/prod/infra
         run:  terraform plan -out=tfplan
-      - name: Terraform Apply (PLATFORM)
-        working-directory: terraform/envs/prod/platform
-        run: terraform apply -auto-approve -tfplan
-
+      
 # =========================
 # 2️⃣ PLATFORM (ARGO / MONITORING)
 # =========================
