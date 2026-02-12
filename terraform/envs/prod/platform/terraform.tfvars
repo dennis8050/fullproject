@@ -16,4 +16,4 @@ sso_auth_url      = "https://auth.example.com"
 sso_token_url     = "https://token.example.com"
 sso_api_url       = "https://api.example.com"
 
-group_ids = ["admins", "developers"]
+
