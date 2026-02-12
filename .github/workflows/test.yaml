@@ -39,7 +39,7 @@ jobs:
         run:  terraform plan -out=tfplan
       - name: Terraform Apply (infra)
         working-directory: terraform/envs/prod/infra
-        run: terraform apply -auto-approve tfplan
+        run: terraform destroy -auto-approve tfplan
 # =========================
 # 2️⃣ PLATFORM (ARGO / MONITORING)
 # =========================
@@ -70,7 +70,7 @@ jobs:
 
       - name: Terraform Apply (PLATFORM)
         working-directory: terraform/envs/prod/platform
-        run: terraform apply -auto-approve tfplan
+        run: terraform destroy -auto-approve tfplan
 # =========================
 # 3️⃣ BUILD & PUSH IMAGES
 # =========================
