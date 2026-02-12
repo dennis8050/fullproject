@@ -49,5 +49,6 @@ source            = "../../../modules/storage"
 app_name = data.terraform_remote_state.infra.outputs.cluster_name
 storage_class_name = "gp3"
 storage_size = "20Gi"
+depends_on = [ module.eks-addons ]
 }
   
