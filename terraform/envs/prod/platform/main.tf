@@ -1,3 +1,15 @@
+#this script call mudule in infra tru remote state to platform to use 
+data "terraform_remote_state" "infra" {
+  backend = "s3"
+
+  config = {
+    bucket = "terraformstatefile-prod1"
+    key    = "prod/infra/terraform.tfstate"
+    region = "us-east-1"
+  }
+}
+
+
 module "argocd" {
   source    = "../../../modules/argocd"
   namespace = "argocd-prod"
@@ -18,21 +30,21 @@ module "monitoring" {
 
 
  depends_on = [
-  module.eks,
-  module.loki_storage
+  
+  module.storage
  
 ]
- loki_existing_claim = module.loki_storage.pvc_name
+ loki_existing_claim = module.storage.pvc_name
 
 }
 
 module "irsa-role" {
   source            = "../../../modules/irsa-role"
   
-  cluster_name        = module.eks.cluster_name
+  cluster_name        = data.terraform_remote_state.infra.outputs.cluster_name
   env                 = var.env
-  oidc_provider_arn   = module.eks.oidc_provider_arn
-  oidc_provider_url   = module.eks.oidc_provider_url
+  oidc_provider_arn   = data.terraform_remote_state.infra.outputs.oidc_provider_arn
+  oidc_provider_url   =data.terraform_remote_state.infra.outputs.oidc_provider_url
 
 }
 module "eks-addons" {
@@ -41,3 +53,9 @@ module "eks-addons" {
   # Pass the EBS IRSA role ARN to the Helm module
   ebs_csi_irsa_arn = module.irsa-role.ebs_csi_irsa_arn
 }
+module "storage" {
+source            = "../../../modules/storage"
+app_name = data.terraform_remote_state.infra.outputs.cluster_name
+storage_class_name = "gp3"
+storage_size = "20GB"}
+  
