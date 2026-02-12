@@ -1,13 +1,4 @@
-#this script call mudule in infra tru remote state to platform to use 
-data "terraform_remote_state" "infra" {
-  backend = "s3"
 
-  config = {
-    bucket = "terraformstatefile-prod1"
-    key    = "prod/infra/terraform.tfstate"
-    region = "us-east-1"
-  }
-}
 
 
 module "argocd" {

@@ -1,6 +1,7 @@
 provider "aws" {
   region = var.aws_region
 }
+#this script call mudule in infra tru remote state to platform to use 
 
 data "terraform_remote_state" "infra" {
   backend = "s3"
