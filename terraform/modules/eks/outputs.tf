@@ -21,3 +21,8 @@ output "oidc_provider_arn" {
 output "oidc_provider_url" {
   value = length(aws_iam_openid_connect_provider.this) > 0 ? aws_iam_openid_connect_provider.this[0].url : ""
 }
+output "oidc_provider_url" {
+  value = var.create_oidc_provider && length(aws_iam_openid_connect_provider.this) > 0 ? replace(aws_iam_openid_connect_provider.this[0].url, "https://", "") :
+    ""
+  description = "OIDC provider URL (without https://) for IRSA roles"
+}

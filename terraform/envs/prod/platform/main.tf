@@ -35,7 +35,7 @@ module "irsa-role" {
   cluster_name        = data.terraform_remote_state.infra.outputs.cluster_name
   env                 = var.env
   oidc_provider_arn   = data.terraform_remote_state.infra.outputs.oidc_provider_arn
-  oidc_provider_url   =data.terraform_remote_state.infra.outputs.oidc_provider_url
+  oidc_provider_url   = data.terraform_remote_state.infra.outputs.oidc_provider_url
 
 }
 module "eks-addons" {
