@@ -70,7 +70,7 @@ jobs:
 
       - name: Terraform Apply (PLATFORM)
         working-directory: terraform/envs/prod/platform
-        run: terraform apply -auto-approve -tfplan
+        run: terraform apply -auto-approve 
 # =========================
 # 3️⃣ BUILD & PUSH IMAGES
 # =========================
