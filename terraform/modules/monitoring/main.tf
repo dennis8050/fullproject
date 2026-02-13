@@ -81,7 +81,8 @@ resource "helm_release" "loki" {
     yamlencode({
       persistence = {
         enabled       = true
-        existingClaim = var.loki_existing_claim  
+        existingClaim = var.loki_existing_claim 
+         mountPath     = "/var/loki" 
       }
       config = {
         table_manager = {
