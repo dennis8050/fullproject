@@ -22,10 +22,10 @@ module "monitoring" {
 
  depends_on = [
   
-  module.storage
+  module.storage_pvc_loki
  
 ]
- loki_existing_claim = module.storage.pvc_name
+ loki_existing_claim = module.storage_pvc_loki.pvc_name
 
 }
 
@@ -44,11 +44,11 @@ module "eks-addons" {
   # Pass the EBS IRSA role ARN to the Helm module
   ebs_csi_irsa_arn = module.irsa-role.ebs_csi_irsa_arn
 }
-module "storage" {
-source            = "../../../modules/storage"
+module "storage_pvc_loki" {
+source            = "../../../modules/storage_pvc_loki"
 app_name = data.terraform_remote_state.infra.outputs.cluster_name
 storage_class_name = "gp3"
-storage_size = "20Gi"
+storage_size = "0Gi"
 depends_on = [ module.eks-addons ]
 }
   
