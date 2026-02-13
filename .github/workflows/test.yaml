@@ -39,7 +39,7 @@ jobs:
         run:  terraform plan -out=tfplan
       - name: Terraform Apply (infra)
         working-directory: terraform/envs/prod/infra
-        run: terraform destroy -auto-approve 
+        run: terraform apply -auto-approve 
 # =========================
 # 2️⃣ PLATFORM (ARGO / MONITORING)
 # =========================
@@ -58,6 +58,13 @@ jobs:
       - name: Setup kubeconfig
         run: |
           aws eks update-kubeconfig  --name dens-prod --region ${{ env.AWS_REGION }}
+
+      - name: Apply Kubernetes Manifests
+        run: |
+          kubectl apply -f k8s/dev/namespace.yaml
+          kubectl apply -f k8s/dev 
+          
+
 
 
       - name: Terraform Init (PLATFORM)
