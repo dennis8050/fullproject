@@ -25,8 +25,7 @@ module "monitoring" {
   module.storage_pvc_loki
  
 ]
- loki_existing_claim = module.storage_pvc_loki.pvc_name 
-
+ loki_existing_claim = "dens-prod-pvc"
 }
 
 module "irsa-role" {
