@@ -43,7 +43,7 @@ locals {
 }
 
 resource "kubernetes_persistent_volume_claim_v1" "loki_backend" {
-  for_each = toset([for i in range(local.loki_backend_count) : i])
+  for_each = { for i in range(local.loki_backend_count) : "backend-${i}" => i }
 
   metadata {
     name      = "data-loki-backend-${each.key}"
@@ -68,7 +68,7 @@ resource "kubernetes_persistent_volume_claim_v1" "loki_backend" {
 }
 
 resource "kubernetes_persistent_volume_claim_v1" "loki_write" {
-  for_each = toset([for i in range(local.loki_write_count) : i])
+  for_each = { for i in range(local.loki_write_count) : "write-${i}" => i }
 
   metadata {
     name      = "data-loki-write-${each.key}"
