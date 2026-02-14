@@ -25,5 +25,5 @@ output "vpc_id" {
 
 
 output "alb_irsa_role_arn" {
-  value = module.alb_irsa.arn
+  value = module.irsa-role.alb_irsa_arn
 }
