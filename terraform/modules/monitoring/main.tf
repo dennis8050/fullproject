@@ -119,18 +119,17 @@ resource "helm_release" "promtail" {
 # ALB Ingress for Grafana (prod only)
 # ----------------------------
 resource "kubernetes_ingress_v1" "grafana" {
-  count = var.env == "prod" ? 1 : 0  # Only create for prod
+  count = var.env == "prod" ? 1 : 0
 
   metadata {
     name      = "grafana-ingress"
-    namespace =var.namespace
-    
+    namespace = var.namespace
     annotations = {
-      "kubernetes.io/ingress.class"                 = "alb"
-      "alb.ingress.kubernetes.io/scheme"           = "internet-facing"
-      "alb.ingress.kubernetes.io/listen-ports"     = jsonencode([{ "HTTP": 80 }, { "HTTPS": 443 }])
+      "kubernetes.io/ingress.class"             = "alb"
+      "alb.ingress.kubernetes.io/scheme"        = "internet-facing"
+      "alb.ingress.kubernetes.io/listen-ports"  = jsonencode([{ "HTTP": 80 }, { "HTTPS": 443 }])
       "alb.ingress.kubernetes.io/healthcheck-path" = "/api/health"
-      "alb.ingress.kubernetes.io/ssl-redirect"     = "443"
+      "alb.ingress.kubernetes.io/ssl-redirect"  = "443"
       "alb.ingress.kubernetes.io/certificate-arn" = var.ssl_certificate_arn
     }
   }
@@ -140,11 +139,11 @@ resource "kubernetes_ingress_v1" "grafana" {
       host = var.monitoring_domain
       http {
         path {
-          path      = "/*"
-          path_type = "ImplementationSpecific"
+          path      = "/"
+          path_type = "Prefix"
           backend {
             service {
-              name = "kube-prometheus-stack-grafana"
+              name = "kube-prometheus-${var.env}-grafana" # fix here
               port {
                 number = 80
               }
