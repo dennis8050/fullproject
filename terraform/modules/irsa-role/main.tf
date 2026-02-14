@@ -29,7 +29,7 @@ resource "aws_iam_role" "alb_irsa" {
 }
 resource "aws_iam_role_policy_attachment" "alb_irsa_attach" {
   role       = aws_iam_role.alb_irsa.name
-  policy_arn = "arn:aws:iam::aws:policy/AWSLoadBalancerControllerIAMPolicy"
+  policy_arn = "arn:aws:iam:${var.aws_account_id}:aws:policy/AWSLoadBalancerControllerIAMPolicy"
 }
 
 

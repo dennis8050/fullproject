@@ -31,6 +31,7 @@ module "irsa-role" {
   env                 = var.env
   oidc_provider_arn   = module.eks.oidc_provider_arn
   oidc_provider_url   = module.eks.oidc_provider_url
+  aws_account_id = var.aws_account_id
 
 }
 module "eks-addons" {
