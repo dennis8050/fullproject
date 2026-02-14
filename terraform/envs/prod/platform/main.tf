@@ -19,7 +19,7 @@ module "monitoring" {
   monitoring_domain = var.monitoring_domain
   ssl_certificate_arn = var.ssl_certificate_arn
 loki_existing_claim =module.storage_pvc_loki.storage_class_name
-depends_on = [ module.storage_pvc_loki ]
+
 
 }
 
