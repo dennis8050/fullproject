@@ -30,7 +30,7 @@ module "alb_controller" {
   cluster_name      = module.eks.cluster_name
   region            = var.aws_region
   vpc_id            = module.eks.vpc_id
-  alb_irsa_role_arn = module.irsa_role.alb_irsa_role_arn
+  alb_irsa_role_arn = module.irsa-role.alb_irsa_role_arn
 }
 
 
