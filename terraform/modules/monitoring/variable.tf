@@ -13,7 +13,3 @@ variable "sso_token_url" { type = string }
 variable "sso_api_url" { type = string }
 
 
-variable "loki_existing_claim" {
-  type        = string
-  description = "Existing PVC name for Loki"
-}

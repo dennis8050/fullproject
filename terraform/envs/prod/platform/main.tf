@@ -17,6 +17,7 @@ module "monitoring" {
   sso_token_url = var.sso_token_url
   sso_api_url = var.sso_api_url
   monitoring_domain = var.monitoring_domain
+  
   ssl_certificate_arn = var.ssl_certificate_arn
 
 depends_on = [ module.storage_pvc_loki ]
