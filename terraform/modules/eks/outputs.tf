@@ -23,3 +23,8 @@ output "oidc_provider_url" {
   value = var.create_oidc_provider && length(aws_iam_openid_connect_provider.this) > 0 ? replace(aws_iam_openid_connect_provider.this[0].url, "https://", "") :   ""
   description = "OIDC provider URL (without https://) for IRSA roles"
 }
+# modules/eks/outputs.tf
+output "vpc_id" {
+  description = "VPC ID where the EKS cluster is deployed"
+  value       = aws_eks_cluster.this.vpc_config[0].vpc_id
+}
