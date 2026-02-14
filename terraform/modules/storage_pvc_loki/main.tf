@@ -12,7 +12,7 @@ resource "kubernetes_namespace_v1" "monitoring" {
 # ----------------------------
 resource "kubernetes_storage_class_v1" "gp3_loki" {
   metadata {
-    name = "gp3_loki"
+    name = "gp3-loki"
   }
 
   storage_provisioner     = "ebs.csi.aws.com"
