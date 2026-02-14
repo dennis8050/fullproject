@@ -24,6 +24,16 @@ aws_region = var.aws_region
 vpc_id = module.vpc
   depends_on = [module.vpc]
 }
+module "alb_controller" {
+  source = "../../../modules/alb-controller"
+
+  cluster_name      = module.eks.cluster_name
+  region            = var.aws_region
+  vpc_id            = module.eks.vpc_id
+  alb_irsa_role_arn = module.irsa_role.alb_irsa_role_arn
+}
+
+
 module "irsa-role" {
   source            = "../../../modules/irsa-role"
   
@@ -32,7 +42,7 @@ module "irsa-role" {
   oidc_provider_arn   = module.eks.oidc_provider_arn
   oidc_provider_url   = module.eks.oidc_provider_url
   aws_account_id = var.aws_account_id
-  
+
 
 }
 module "eks-addons" {
