@@ -18,3 +18,12 @@ output "oidc_provider_url" {
   value       = module.eks.oidc_provider_url
   description = "OIDC provider URL from the EKS module"
 }
+output "vpc_id" {
+  description = "VPC ID where the EKS cluster is deployed"
+  value       = module.eks.vpc_id
+}
+
+
+output "alb_irsa_role_arn" {
+  value = module.alb_irsa.arn
+}
