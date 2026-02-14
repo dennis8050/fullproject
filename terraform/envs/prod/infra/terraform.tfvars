@@ -11,4 +11,4 @@ private_subnets = ["10.0.101.0/24", "10.0.102.0/24"]
 azs = ["us-east-1a", "us-east-1b"]
 
 eks_node_type  = "t3.large"
-eks_node_count = 6
+eks_node_count = 2
