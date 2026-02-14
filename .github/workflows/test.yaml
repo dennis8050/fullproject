@@ -32,7 +32,7 @@ jobs:
 
       - name: Terraform Init (INFRA)
         working-directory: terraform/envs/prod/infra
-        run: terraform init -upgrade
+        run: terraform init -reconfigure
         #run: terraform init -input=false
       - name: Terraform Apply (INFRA)
         working-directory: terraform/envs/prod/infra
