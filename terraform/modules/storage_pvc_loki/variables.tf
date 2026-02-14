@@ -1,15 +1,16 @@
-
-variable "storage_class_name" {
-  description = "Name of the storage class"
+variable "app_name" {
+  description = "Name of the application (used for PVC name)"
   type        = string
 }
 
-variable "app_name" {
-  description = "Application name to prefix PVC"
+variable "namespace" {
+  description = "Kubernetes namespace for the PVC"
   type        = string
+  default     = "monitoring"
 }
 
 variable "storage_size" {
   description = "Size of the PVC"
   type        = string
+  default     = "10Gi"
 }
