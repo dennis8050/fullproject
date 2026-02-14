@@ -31,4 +31,13 @@ source            = "../../../modules/storage_pvc_loki"
   namespace         = "monitoring-${var.env}"
 
 }
+module "alb_controller" {
+  source = "../../../modules/alb-controller"
+
+  cluster_name      = data.terraform_remote_state.infra.outputs.cluster_name
+  region            = var.aws_region
+  vpc_id            = data.terraform_remote_state.infra.outputs.vpc_id
+  alb_irsa_role_arn = data.terraform_remote_state.infra.outputs.alb_irsa_role_arn
+}
+
   
