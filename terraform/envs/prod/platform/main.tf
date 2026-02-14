@@ -38,6 +38,11 @@ module "alb_controller" {
   region            = var.aws_region
   vpc_id            = data.terraform_remote_state.infra.outputs.vpc_id
   alb_irsa_role_arn = data.terraform_remote_state.infra.outputs.alb_irsa_role_arn
+
+  providers = {
+    kubernetes = kubernetes
+    helm       = helm
+  }
 }
 
   
