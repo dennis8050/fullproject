@@ -6,7 +6,7 @@ variable "alb_irsa_role_arn" {}
 # ----------------------------
 # Service Account
 # ----------------------------
-resource "kubernetes_service_account" "alb_sa" {
+resource "kubernetes_service_account_v1" "alb_sa" {
   metadata {
     name      = "aws-load-balancer-controller"
     namespace = "kube-system"
@@ -46,11 +46,11 @@ resource "helm_release" "alb_controller" {
     },
     {
       name  = "serviceAccount.name"
-      value = kubernetes_service_account.alb_sa.metadata[0].name
+      value = kubernetes_service_account_v1.alb_sa.metadata[0].name
     }
   ]
 
   depends_on = [
-    kubernetes_service_account.alb_sa
+    kubernetes_service_account_v1.alb_sa
   ]
 }
