@@ -59,7 +59,8 @@ resource "helm_release" "kube_prometheus" {
 # ----------------------------
 resource "helm_release" "loki" {
   name       = "loki-${var.env}"
-  namespace  = kubernetes_namespace_v1.monitoring.metadata[0].name
+  namespace  = var.namespace
+  create_namespace = true
   repository = "https://grafana.github.io/helm-charts"
   chart      = "loki"
   version    = "5.41.0"
@@ -87,9 +88,7 @@ resource "helm_release" "loki" {
   })
 ]
 
-  depends_on = [
-    kubernetes_namespace_v1.monitoring
-  ]
+
 }
 
 # ----------------------------
@@ -97,7 +96,7 @@ resource "helm_release" "loki" {
 # ----------------------------
 resource "helm_release" "promtail" {
   name       = "promtail-${var.env}"
-  namespace  = kubernetes_namespace_v1.monitoring.metadata[0].name
+  namespace  =var.namespace
   repository = "https://grafana.github.io/helm-charts"
   chart      = "promtail"
   version    = "6.15.5"
@@ -124,7 +123,8 @@ resource "kubernetes_ingress_v1" "grafana" {
 
   metadata {
     name      = "grafana-ingress"
-    namespace = kubernetes_namespace_v1.monitoring.metadata[0].name
+    namespace =var.namespace
+    
     annotations = {
       "kubernetes.io/ingress.class"                 = "alb"
       "alb.ingress.kubernetes.io/scheme"           = "internet-facing"
