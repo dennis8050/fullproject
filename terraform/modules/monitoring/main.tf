@@ -77,21 +77,25 @@ resource "helm_release" "loki" {
   force_update = true
   replace      = true
 
-  values = [
-    yamlencode({
+ values = [
+  yamlencode({
+    loki = {
       persistence = {
-        enabled       = true
-        existingClaim = var.loki_existing_claim 
-         mountPath     = "/var/loki" 
+        enabled          = true
+        storageClassName = "gp3-loki"
+        size             = "10Gi"
+        accessModes      = ["ReadWriteOnce"]
       }
-      config = {
-        table_manager = {
-          retention_deletes_enabled = true
-          retention_period           = "7d"
-        }
+
+      retention_period = "168h" # 7 days
+
+      commonConfig = {
+        replication_factor = 1
       }
-    })
-  ]
+    }
+  })
+]
+
   depends_on = [
     kubernetes_namespace_v1.monitoring
   ]

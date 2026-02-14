@@ -36,3 +36,6 @@ variable "group_ids" {
 
 variable "aws_account_id" {}
 variable "oidc_role_arn" {}
+
+
+

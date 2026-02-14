@@ -18,17 +18,15 @@ module "monitoring" {
   sso_api_url = var.sso_api_url
   monitoring_domain = var.monitoring_domain
   ssl_certificate_arn = var.ssl_certificate_arn
-loki_existing_claim =module.storage_pvc_loki.pvc_name
 
+depends_on = [ module.storage_pvc_loki ]
 
 }
 
 
 module "storage_pvc_loki" {
 source            = "../../../modules/storage_pvc_loki"
-app_name = data.terraform_remote_state.infra.outputs.cluster_name
 
-storage_size = "10Gi"
   namespace         = "monitoring-${var.env}"
 
 }
