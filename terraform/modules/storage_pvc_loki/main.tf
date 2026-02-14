@@ -16,7 +16,7 @@ resource "kubernetes_storage_class_v1" "gp3_loki" {
   }
 
   storage_provisioner     = "ebs.csi.aws.com"
-  volume_binding_mode     = "WaitForFirstConsumer"
+  volume_binding_mode     = "Immediate"
   reclaim_policy          = "Delete"
   allow_volume_expansion  = true
 
