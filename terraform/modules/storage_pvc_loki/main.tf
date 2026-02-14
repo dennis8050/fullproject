@@ -15,10 +15,10 @@ resource "kubernetes_storage_class_v1" "gp3_loki" {
     name = "gp3-loki"
   }
 
-  provisioner            = "ebs.csi.aws.com"
-  volume_binding_mode    = "WaitForFirstConsumer"
-  reclaim_policy         = "Delete"
-  allow_volume_expansion = true
+  storage_provisioner     = "ebs.csi.aws.com"
+  volume_binding_mode     = "WaitForFirstConsumer"
+  reclaim_policy          = "Delete"
+  allow_volume_expansion  = true
 
   parameters = {
     type   = "gp3"
