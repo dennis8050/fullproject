@@ -18,8 +18,7 @@ module "monitoring" {
   sso_api_url = var.sso_api_url
   monitoring_domain = var.monitoring_domain
   ssl_certificate_arn = var.ssl_certificate_arn
-loki_existing_claim = module.storage_pvc_loki.pvc_name
-
+loki_existing_claim =module.storage_pvc_loki.app_pvc.metadata[0].name
 
 
  depends_on = [
