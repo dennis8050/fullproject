@@ -21,7 +21,7 @@ resource "helm_release" "kube_prometheus" {
     yamlencode({
       grafana = {
         service = {
-          type = var.env == "prod" ? "ClusterIP" : "LoadBalancer"
+          type = var.env == "prod" ? "NodePort" : "LoadBalancer"
         }
         ingress = {
           enabled = false
