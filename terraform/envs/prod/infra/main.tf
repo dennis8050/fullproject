@@ -24,14 +24,6 @@ aws_region = var.aws_region
 vpc_id = module.vpc
   depends_on = [module.vpc]
 }
-module "alb_controller" {
-  source = "../../../modules/alb-controller"
-
-  cluster_name      = module.eks.cluster_name
-  region            = var.aws_region
-  vpc_id            = module.eks.vpc_id
-  alb_irsa_role_arn = module.irsa-role.alb_irsa_role_arn
-}
 
 
 module "irsa-role" {
