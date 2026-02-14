@@ -27,6 +27,11 @@ resource "aws_iam_role" "alb_irsa" {
     }]
   })
 }
+resource "aws_iam_role_policy_attachment" "alb_irsa_attach" {
+  role       = aws_iam_role.alb_irsa.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLoadBalancerControllerIAMPolicy"
+}
+
 
 ############################################
 # IRSA: ArgoCD
