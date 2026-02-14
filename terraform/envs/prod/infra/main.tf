@@ -24,3 +24,20 @@ aws_region = var.aws_region
 vpc_id = module.vpc
   depends_on = [module.vpc]
 }
+module "irsa-role" {
+  source            = "../../../modules/irsa-role"
+  
+  cluster_name        = module.eks.cluster_name
+  env                 = var.env
+  oidc_provider_arn   = module.eks.oidc_provider_arn
+  oidc_provider_url   = module.eks.oidc_provider_url
+
+}
+module "eks-addons" {
+  source = "../../../modules/eks-addons"
+  
+  # Pass the EBS IRSA role ARN to the Helm module
+  ebs_csi_role_arn = module.ebs_csi_irsa_arn
+  cluster_name = module.eks.cluster_name
+  depends_on = [ module.eks, module.irsa-role ]
+}

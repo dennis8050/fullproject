@@ -27,21 +27,7 @@ loki_existing_claim = module.storage_pvc_loki.pvc_name
  
 }
 
-module "irsa-role" {
-  source            = "../../../modules/irsa-role"
-  
-  cluster_name        = data.terraform_remote_state.infra.outputs.cluster_name
-  env                 = var.env
-  oidc_provider_arn   = data.terraform_remote_state.infra.outputs.oidc_provider_arn
-  oidc_provider_url   = data.terraform_remote_state.infra.outputs.oidc_provider_url
 
-}
-module "eks-addons" {
-  source = "../../../modules/eks-addons"
-  
-  # Pass the EBS IRSA role ARN to the Helm module
-  ebs_csi_irsa_arn = module.irsa-role.ebs_csi_irsa_arn
-}
 module "storage_pvc_loki" {
 source            = "../../../modules/storage_pvc_loki"
 app_name = data.terraform_remote_state.infra.outputs.cluster_name
