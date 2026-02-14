@@ -125,16 +125,17 @@ resource "kubernetes_ingress_v1" "grafana" {
     name      = "grafana-ingress"
     namespace = var.namespace
     annotations = {
-      "kubernetes.io/ingress.class"             = "alb"
-      "alb.ingress.kubernetes.io/scheme"        = "internet-facing"
-      "alb.ingress.kubernetes.io/listen-ports"  = jsonencode([{ "HTTP": 80 }, { "HTTPS": 443 }])
+      "alb.ingress.kubernetes.io/scheme"           = "internet-facing"
+      "alb.ingress.kubernetes.io/listen-ports"     = jsonencode([{ "HTTP": 80 }, { "HTTPS": 443 }])
       "alb.ingress.kubernetes.io/healthcheck-path" = "/api/health"
-      "alb.ingress.kubernetes.io/ssl-redirect"  = "443"
+      "alb.ingress.kubernetes.io/ssl-redirect"     = "443"
       "alb.ingress.kubernetes.io/certificate-arn" = var.ssl_certificate_arn
     }
   }
 
   spec {
+    ingress_class_name = "alb"
+
     rule {
       host = var.monitoring_domain
       http {
@@ -143,7 +144,7 @@ resource "kubernetes_ingress_v1" "grafana" {
           path_type = "Prefix"
           backend {
             service {
-              name = "kube-prometheus-${var.env}-grafana" # fix here
+              name = "kube-prometheus-${var.env}-grafana"
               port {
                 number = 80
               }
