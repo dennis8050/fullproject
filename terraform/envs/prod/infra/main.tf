@@ -37,7 +37,7 @@ module "eks-addons" {
   source = "../../../modules/eks-addons"
   
   # Pass the EBS IRSA role ARN to the Helm module
-  ebs_csi_role_arn = module.ebs_csi_irsa_arn
+  ebs_csi_role_arn = module.irsa-role.ebs_csi_irsa_arn
   cluster_name = module.eks.cluster_name
   depends_on = [ module.eks, module.irsa-role ]
 }
