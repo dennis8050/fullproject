@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/name: aws-ebs-csi-driver
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::311141540332:role/EBS_CSI_Controller_Role
+    eks.amazonaws.com/role-arn: arn:aws:iam::311141540332:role/dens-prod-ebs-csi-irsa
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
