@@ -1,30 +1,21 @@
 # ----------------------------
 # Namespace
 # ----------------------------
-resource "kubernetes_namespace_v1" "monitoring" {
-  metadata {
-    name = var.namespace
-    labels = {
-      app = "monitoring"
-      env = var.env
-    }
-  }
-}
 
 # ----------------------------
 # Prometheus + Grafana
 # ----------------------------
 resource "helm_release" "kube_prometheus" {
   name       = "kube-prometheus-${var.env}"
-  namespace  = kubernetes_namespace_v1.monitoring.metadata[0].name
+
+  namespace  = var.namespace
+  create_namespace = true
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
   version    = "58.5.0"
   timeout    = 900
   force_update = true
- depends_on = [
-    kubernetes_namespace_v1.monitoring
-  ]
+
 
   values = [
     yamlencode({
