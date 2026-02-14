@@ -1,5 +1,5 @@
 # ----------------------------
-# Namespace for monitoring (optional if not created elsewhere)
+# Namespace for monitoring
 # ----------------------------
 resource "kubernetes_namespace_v1" "monitoring" {
   metadata {
@@ -15,24 +15,16 @@ resource "kubernetes_storage_class_v1" "gp3_loki" {
     name = "gp3-loki"
   }
 
-  storage_provisioner     = "ebs.csi.aws.com"
-  volume_binding_mode     = "Immediate"
-  reclaim_policy          = "Delete"
-  allow_volume_expansion  = true
+  storage_provisioner    = "ebs.csi.aws.com"
+  volume_binding_mode    = "Immediate"
+  reclaim_policy         = "Delete"
+  allow_volume_expansion = true
 
   parameters = {
     type   = "gp3"
     fsType = "ext4"
   }
 }
-
-# ----------------------------
-# PVC for Loki
-# ----------------------------
-
-# ----------------------------
-# Outputs
-# ----------------------------
 
 # ----------------------------
 # Loki PVCs (one per backend/write pod)
@@ -42,8 +34,9 @@ locals {
   loki_write_count   = 3
 }
 
+# Backend PVCs
 resource "kubernetes_persistent_volume_claim_v1" "loki_backend" {
-  for_each = { for i in range(local.loki_backend_count) : "backend-${i}" => i }
+  for_each = { for i in range(local.loki_backend_count) : i => i }
 
   metadata {
     name      = "data-loki-backend-${each.key}"
@@ -67,8 +60,9 @@ resource "kubernetes_persistent_volume_claim_v1" "loki_backend" {
   ]
 }
 
+# Write PVCs
 resource "kubernetes_persistent_volume_claim_v1" "loki_write" {
-  for_each = { for i in range(local.loki_write_count) : "write-${i}" => i }
+  for_each = { for i in range(local.loki_write_count) : i => i }
 
   metadata {
     name      = "data-loki-write-${each.key}"
