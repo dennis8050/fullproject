@@ -20,7 +20,7 @@ module "monitoring" {
   
   ssl_certificate_arn = var.ssl_certificate_arn
 
-depends_on = [ module.storage_pvc_loki ]
+ depends_on = [ module.storage_pvc_loki ]
 
 }
 
