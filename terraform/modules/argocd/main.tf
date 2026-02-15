@@ -2,7 +2,6 @@
 # Namespace for ArgoCD
 # -----------------------------
 resource "kubernetes_namespace_v1" "argocd" {
-  
   metadata {
     name = var.namespace
     labels = {
@@ -19,17 +18,29 @@ locals {
   argocd_ingress = var.env == "prod" ? {
     enabled          = true
     ingressClassName = "alb"
+
     annotations = {
-      "alb.ingress.kubernetes.io/scheme"       = "internet-facing"
-      "alb.ingress.kubernetes.io/target-type"  = "ip"
-      "alb.ingress.kubernetes.io/listen-ports" = "[{\"HTTP\":80}]"
+      "kubernetes.io/ingress.class"               = "alb"
+      "alb.ingress.kubernetes.io/scheme"          = "internet-facing"
+      "alb.ingress.kubernetes.io/target-type"     = "ip"
+
+      # SSL handled by ALB
+      "alb.ingress.kubernetes.io/backend-protocol" = "HTTP"
+      "alb.ingress.kubernetes.io/listen-ports"     = "[{\"HTTPS\":443}]"
+      "alb.ingress.kubernetes.io/ssl-redirect"     = "443"
+      "alb.ingress.kubernetes.io/certificate-arn"  = var.ssl_certificate_arn
+
+      # Important for ArgoCD
+      "alb.ingress.kubernetes.io/healthcheck-path" = "/healthz"
     }
-    # <-- FIX: paths must be a list of strings
+
+    hosts = [var.argocd_domain]
     paths = ["/"]
   } : {
     enabled          = false
     ingressClassName = ""
     annotations      = {}
+    hosts            = []
     paths            = []
   }
 }
@@ -44,7 +55,6 @@ resource "helm_release" "argocd" {
   chart      = "argo-cd"
   version    = var.chart_version
 
-  # Terraform / Helm best practices
   reuse_values    = true
   force_update    = true
   replace         = true
@@ -58,9 +68,14 @@ resource "helm_release" "argocd" {
   values = [
     yamlencode({
       server = {
+
+        # 🔥 THIS FIXES YOUR ISSUE
+        extraArgs = ["--insecure"]
+
         service = {
           type = "ClusterIP"
         }
+
         ingress = local.argocd_ingress
       }
     })
