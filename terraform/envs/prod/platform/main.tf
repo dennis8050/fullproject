@@ -5,6 +5,8 @@ module "argocd" {
   source    = "../../../modules/argocd"
   namespace = "argocd-prod"
   env = var.env
+  argocd_domain = "argo-prod.com"
+  ssl_certificate_arn = var.ssl_certificate_arn
 }
 
 module "monitoring" {
