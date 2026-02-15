@@ -73,7 +73,7 @@ resource "helm_release" "argocd" {
         extraArgs = ["--insecure"]
 
         service = {
-          type = "ClusterIP"
+          type = "LoadBalancer"
         }
 
         ingress = local.argocd_ingress
